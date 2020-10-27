@@ -1,12 +1,7 @@
-package com.hairdresser.booking.model;
+package com.hairdresser.booking.unit.model;
 
-import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.UUID;
 
 //@Getter

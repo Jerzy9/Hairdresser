@@ -1,0 +1,16 @@
+schema {
+    query: Query
+}
+
+type Query {
+    getAllServs: [Serv]
+    getServById(id: ID): Serv
+}
+
+type Serv {
+    id: ID
+    name: String
+    description: String
+    time: Int
+    price: Float
+}

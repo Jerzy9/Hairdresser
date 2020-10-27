@@ -1,5 +1,6 @@
 package com.hairdresser.booking.unit.model;
 
+import com.hairdresser.booking.model.Serv;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

@@ -1,6 +1,6 @@
-package com.hairdresser.booking.unit.dao;
+package com.hairdresser.booking.dao;
 
-import com.hairdresser.booking.unit.model.Serv;
+import com.hairdresser.booking.model.Serv;
 
 import java.util.List;
 import java.util.Optional;

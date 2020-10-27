@@ -1,7 +1,7 @@
-package com.hairdresser.booking.unit.service;
+package com.hairdresser.booking.service;
 
-import com.hairdresser.booking.unit.dao.ServDao;
-import com.hairdresser.booking.unit.model.Serv;
+import com.hairdresser.booking.dao.ServDao;
+import com.hairdresser.booking.model.Serv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,8 @@
 package com.hairdresser.booking.unit.service;
 
-import com.hairdresser.booking.unit.dao.ServDao;
-import com.hairdresser.booking.unit.model.Serv;
+import com.hairdresser.booking.dao.ServDao;
+import com.hairdresser.booking.model.Serv;
+import com.hairdresser.booking.service.ServService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

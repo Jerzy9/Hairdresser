@@ -1,4 +1,4 @@
-package com.hairdresser.booking.unit.model;
+package com.hairdresser.booking.model;
 
 import org.springframework.data.annotation.Id;
 

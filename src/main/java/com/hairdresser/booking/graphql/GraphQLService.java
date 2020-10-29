@@ -21,7 +21,7 @@ import java.io.IOException;
 public class GraphQLService {
 
     @Value("classpath:main.graphqls")
-    Resource resource;
+    private Resource resource;
 
     private GraphQL graphQL;
     @Autowired

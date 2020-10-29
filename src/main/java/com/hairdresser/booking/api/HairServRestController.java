@@ -20,7 +20,7 @@ public class HairServRestController {
         return "Hello world";
     }
 
-    @PostMapping
+    @PostMapping("/graphql")
     public ResponseEntity<Object> getAllServs(@RequestBody String query) {
         ExecutionResult execute = graphQLService.getGraphQL().execute(query);
         return new ResponseEntity<Object>(execute, HttpStatus.OK);

@@ -19,7 +19,7 @@ public class ServByIdDataFetcher implements DataFetcher<Serv> {
     public Serv get(DataFetchingEnvironment dataFetchingEnvironment) throws Exception {
         UUID id = UUID.fromString(dataFetchingEnvironment.getArgument("id"));
         return servService.getServById(id).orElse(
-                new Serv(UUID.randomUUID(), "", "",0, 0)
+                new Serv(UUID.randomUUID(), "empty", "empty",-1, -1)
         );
     }
 }

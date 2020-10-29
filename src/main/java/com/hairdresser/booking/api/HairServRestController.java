@@ -1,6 +1,5 @@
 package com.hairdresser.booking.api;
 
-
 import com.hairdresser.booking.graphql.GraphQLService;
 import graphql.ExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;

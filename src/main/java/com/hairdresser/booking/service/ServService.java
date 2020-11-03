@@ -1,7 +1,9 @@
 package com.hairdresser.booking.service;
 
 import com.hairdresser.booking.dao.ServDao;
+import com.hairdresser.booking.exception.ServNotFoundException;
 import com.hairdresser.booking.model.Serv;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -11,21 +13,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ServService {
-
+    @Autowired @Qualifier("fake")
     private final ServDao servDao;
-
-    @Autowired
-    public ServService(@Qualifier("fake") ServDao servDao) {
-        this.servDao = servDao;
-    }
 
     public int insertServ(Serv newServ) {
         return servDao.insertServ(newServ);
     }
 
-    public Optional<Serv> getServById(UUID id) {
-        return servDao.getServById(id);
+    public Serv getServById(UUID id) {
+        Optional<Serv> optionalServ = servDao.getServById(id);
+        return optionalServ.orElseThrow(ServNotFoundException::new);
     }
 
     public List<Serv> getAllServs() {

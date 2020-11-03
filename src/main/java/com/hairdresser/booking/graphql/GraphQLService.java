@@ -8,6 +8,7 @@ import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -18,21 +19,18 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 public class GraphQLService {
+    @Autowired
+    private final AllServsDataFetcher allServsDataFetcher;
+    @Autowired
+    private final ServByIdDataFetcher servByIdDataFetcher;
 
+    //move value loading to a separate configuration class if this keeps growing
     @Value("classpath:main.graphqls")
     private Resource resource;
 
     private GraphQL graphQL;
-
-    private AllServsDataFetcher allServsDataFetcher;
-    private ServByIdDataFetcher servByIdDataFetcher;
-
-    @Autowired
-    public GraphQLService(AllServsDataFetcher allServsDataFetcher, ServByIdDataFetcher servByIdDataFetcher) {
-        this.allServsDataFetcher = allServsDataFetcher;
-        this.servByIdDataFetcher = servByIdDataFetcher;
-    }
 
     @PostConstruct
     private void loadSchema() throws IOException {

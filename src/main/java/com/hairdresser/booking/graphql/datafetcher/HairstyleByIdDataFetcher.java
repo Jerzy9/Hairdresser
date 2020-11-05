@@ -1,7 +1,7 @@
 package com.hairdresser.booking.graphql.datafetcher;
 
-import com.hairdresser.booking.model.Serv;
-import com.hairdresser.booking.service.ServService;
+import com.hairdresser.booking.model.Hairstyle;
+import com.hairdresser.booking.service.HairstyleService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +12,13 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ServByIdDataFetcher implements DataFetcher<Serv> {
+public class HairstyleByIdDataFetcher implements DataFetcher<Hairstyle> {
     @Autowired
-    private final ServService servService;
+    private final HairstyleService hairstyleService;
 
     @Override
-    public Serv get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public Hairstyle get(DataFetchingEnvironment dataFetchingEnvironment) {
         UUID id = UUID.fromString(dataFetchingEnvironment.getArgument("id"));
-        return servService.getServById(id);
+        return hairstyleService.getHairstyleById(id);
     }
 }

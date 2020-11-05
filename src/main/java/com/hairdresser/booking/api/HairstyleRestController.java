@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
-public class HairServRestController {
+public class HairstyleRestController {
 
     @Autowired
     private GraphQLService graphQLService;
@@ -20,7 +20,7 @@ public class HairServRestController {
     }
 
     @PostMapping("/graphql")
-    public ResponseEntity<Object> getAllServs(@RequestBody String query) {
+    public ResponseEntity<Object> getAllHairstyles(@RequestBody String query) {
         ExecutionResult execute = graphQLService.getGraphQL().execute(query);
         return new ResponseEntity<Object>(execute, HttpStatus.OK);
     }

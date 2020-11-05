@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Serv {
+public class Hairstyle {
     @Id
     private UUID id;
     private String name;

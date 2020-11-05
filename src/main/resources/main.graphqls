@@ -3,11 +3,11 @@ schema {
 }
 
 type Query {
-    getAllServs: [Serv]
-    getServById(id: ID): Serv
+    getAllHairstyles: [Hairstyle]
+    getHairstyleById(id: ID): Hairstyle
 }
 
-type Serv {
+type Hairstyle {
     id: ID
     name: String
     description: String

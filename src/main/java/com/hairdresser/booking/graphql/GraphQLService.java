@@ -1,7 +1,7 @@
 package com.hairdresser.booking.graphql;
 
-import com.hairdresser.booking.graphql.datafetcher.AllServsDataFetcher;
-import com.hairdresser.booking.graphql.datafetcher.ServByIdDataFetcher;
+import com.hairdresser.booking.graphql.datafetcher.AllHairstylesDataFetcher;
+import com.hairdresser.booking.graphql.datafetcher.HairstyleByIdDataFetcher;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -22,9 +22,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GraphQLService {
     @Autowired
-    private final AllServsDataFetcher allServsDataFetcher;
+    private final AllHairstylesDataFetcher allHairstylesDataFetcher;
     @Autowired
-    private final ServByIdDataFetcher servByIdDataFetcher;
+    private final HairstyleByIdDataFetcher hairstyleByIdDataFetcher;
 
     //move value loading to a separate configuration class if this keeps growing
     @Value("classpath:main.graphqls")
@@ -47,8 +47,8 @@ public class GraphQLService {
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                         .dataFetcher("getAllServs", allServsDataFetcher)
-                         .dataFetcher("getServById", servByIdDataFetcher))
+                         .dataFetcher("getAllHairstyles", allHairstylesDataFetcher)
+                         .dataFetcher("getHairstyleById", hairstyleByIdDataFetcher))
                 .build();
     }
 

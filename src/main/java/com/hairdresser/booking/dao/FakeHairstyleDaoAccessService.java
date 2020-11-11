@@ -22,8 +22,8 @@ public class FakeHairstyleDaoAccessService implements HairstyleDao {
             );
 
     @Override
-    public int insertHairstyle(Hairstyle newHairstyle) {
-        hairstyles.add(newHairstyle);
+    public int insertHairstyle(UUID id, Hairstyle newHairstyle) {
+        hairstyles.add(new Hairstyle(id, newHairstyle.getName(), newHairstyle.getDescription(), newHairstyle.getTime(), newHairstyle.getPrice()));
         return 1;
     }
 

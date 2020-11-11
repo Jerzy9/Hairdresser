@@ -8,7 +8,12 @@ import java.util.UUID;
 
 public interface HairstyleDao {
 
-    int insertHairstyle(Hairstyle newHairstyle);
+    int insertHairstyle(UUID id, Hairstyle newHairstyle);
+
+    default int insertHairstyle(Hairstyle newHairstyle) {
+        UUID randomId = UUID.randomUUID();
+        return insertHairstyle(randomId, newHairstyle);
+    }
 
     Optional<Hairstyle> getHairstyleById(UUID id);
 

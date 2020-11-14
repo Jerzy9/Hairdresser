@@ -1,9 +1,9 @@
 package com.hairdresser.booking;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+
 
 @SpringBootApplication
 public class BookingApplication {
@@ -13,6 +13,8 @@ public class BookingApplication {
 	}
 
 //	@Bean
-//	public ServletRegistrationBean<>(GraphQLHtt)
+//	public ServletRegistrationBean<GraphQlHttpServlet>() {
+//		return new ServletRegistrationBean<>(GraphQlHttpServlet.with)
+//	}
 
 }

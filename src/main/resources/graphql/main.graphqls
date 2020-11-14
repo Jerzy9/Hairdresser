@@ -1,5 +1,6 @@
 schema {
     query: Query
+    mutation: Mutation
 }
 
 type Query {
@@ -9,6 +10,18 @@ type Query {
 
 type Hairstyle {
     id: ID
+    name: String
+    description: String
+    time: Int
+    price: Float
+}
+
+type Mutation {
+    insertHairstyle(hairstyle: HairstyleInput): Int
+    deleteHairstyleById(id: ID): Int
+}
+
+input HairstyleInput {
     name: String
     description: String
     time: Int

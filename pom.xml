@@ -65,11 +65,11 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java -->
-		<dependency>
-			<groupId>com.graphql-java</groupId>
-			<artifactId>graphql-java</artifactId>
-			<version>15.0</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.graphql-java</groupId>-->
+<!--			<artifactId>graphql-java</artifactId>-->
+<!--			<version>15.0</version>-->
+<!--		</dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java-tools -->
 		<dependency>
@@ -84,6 +84,20 @@
 			<artifactId>graphql-spring-boot-starter</artifactId>
 			<version>5.0.2</version>
 		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>com.graphql-java-kickstart</groupId>-->
+<!--			<artifactId>graphql-java-servlet</artifactId>-->
+<!--			<version>9.1.0</version>-->
+<!--		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java-servlet -->
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-servlet</artifactId>
+			<version>6.1.3</version>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
 		<dependency>

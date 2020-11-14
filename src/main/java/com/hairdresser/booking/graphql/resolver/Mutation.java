@@ -11,11 +11,11 @@ import java.util.UUID;
 public class Mutation implements GraphQLMutationResolver {
     private final HairstyleService hairstyleService;
 
-    public int insertHairstyle(Hairstyle newHairstyle) {
+    public Hairstyle insertHairstyle(Hairstyle newHairstyle) {
         return hairstyleService.insertHairstyle(newHairstyle);
     }
 
-    public int deleteHairstyleById(UUID id) {
+    public Hairstyle deleteHairstyleById(UUID id) {
         return hairstyleService.deleteHairstyleById(id);
     }
 }

@@ -3,10 +3,18 @@ schema {
     mutation: Mutation
 }
 
+#Root Query
 type Query {
     getAllHairstyles: [Hairstyle]
     getHairstyleById(id: ID): Hairstyle
 }
+
+#Root Mutation
+type Mutation {
+    insertHairstyle(hairstyle: HairstyleInput): Hairstyle
+    deleteHairstyleById(id: ID): Hairstyle
+}
+
 
 type Hairstyle {
     id: ID
@@ -14,11 +22,6 @@ type Hairstyle {
     description: String
     time: Int
     price: Float
-}
-
-type Mutation {
-    insertHairstyle(hairstyle: HairstyleInput): Int
-    deleteHairstyleById(id: ID): Int
 }
 
 input HairstyleInput {

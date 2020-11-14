@@ -18,7 +18,7 @@ public class HairstyleService {
     @Autowired @Qualifier("fake")
     private final HairstyleDao hairstyleDao;
 
-    public int insertHairstyle(Hairstyle newHairstyle) {
+    public Hairstyle insertHairstyle(Hairstyle newHairstyle) {
         return hairstyleDao.insertHairstyle(newHairstyle);
     }
 
@@ -31,7 +31,8 @@ public class HairstyleService {
         return hairstyleDao.getAllHairstyles();
     }
 
-    public int deleteHairstyleById(UUID id) {
-        return hairstyleDao.deleteHairstyleById(id);
+    public Hairstyle deleteHairstyleById(UUID id) {
+        Optional<Hairstyle> optionalHairstyle = hairstyleDao.deleteHairstyleById(id);
+        return optionalHairstyle.orElseThrow(HairstyleNotFoundException::new);
     }
 }

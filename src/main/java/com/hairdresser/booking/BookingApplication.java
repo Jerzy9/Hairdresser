@@ -12,6 +12,8 @@ public class BookingApplication {
 		SpringApplication.run(BookingApplication.class, args);
 	}
 
+// Cannot find proper class - 'GraphQLHttpServlet'
+
 //	@Bean
 //	public ServletRegistrationBean<GraphQlHttpServlet>() {
 //		return new ServletRegistrationBean<>(GraphQlHttpServlet.with)

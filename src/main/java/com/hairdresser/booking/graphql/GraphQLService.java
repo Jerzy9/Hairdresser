@@ -37,7 +37,6 @@ public class GraphQLService {
                 .makeExecutableSchema();
     }
 
-
     public GraphQL getGraphQL() {
         return graphQL;
     }

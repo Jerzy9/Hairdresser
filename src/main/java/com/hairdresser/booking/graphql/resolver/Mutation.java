@@ -18,4 +18,8 @@ public class Mutation implements GraphQLMutationResolver {
     public Hairstyle deleteHairstyleById(UUID id) {
         return hairstyleService.deleteHairstyleById(id);
     }
+
+    public Hairstyle editHairstyleById(UUID id, Hairstyle newHairstyle) {
+        return hairstyleService.editHairstyleById(id, newHairstyle);
+    }
 }

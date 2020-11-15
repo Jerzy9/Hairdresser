@@ -6,15 +6,15 @@ schema {
 #Root Query
 type Query {
     getAllHairstyles: [Hairstyle]
-    getHairstyleById(id: ID): Hairstyle
+    getHairstyleById(id: ID!): Hairstyle
 }
 
 #Root Mutation
 type Mutation {
-    insertHairstyle(hairstyle: HairstyleInput): Hairstyle
-    deleteHairstyleById(id: ID): Hairstyle
+    insertHairstyle(hairstyle: HairstyleInput!): Hairstyle
+    deleteHairstyleById(id: ID!): Hairstyle
+    editHairstyleById(id:ID!, hairstyle:HairstyleInput!): Hairstyle
 }
-
 
 type Hairstyle {
     id: ID

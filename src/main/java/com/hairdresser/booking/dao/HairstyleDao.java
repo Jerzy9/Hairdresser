@@ -20,4 +20,6 @@ public interface HairstyleDao {
     List<Hairstyle> getAllHairstyles();
 
     Optional<Hairstyle> deleteHairstyleById(UUID id);
+
+    Optional<Hairstyle> editHairstyleById(UUID id, Hairstyle newHairstyle);
 }

@@ -42,8 +42,17 @@ public class FakeHairstyleDaoAccessService implements HairstyleDao {
     @Override
     public Optional<Hairstyle> deleteHairstyleById(UUID id) {
         Optional<Hairstyle> hairstyleToDelete = getHairstyleById(id);
-        hairstyleToDelete.ifPresent(hairstyle -> hairstyles.remove(hairstyle));
+        hairstyleToDelete.ifPresent(hs-> hairstyles.remove(hs));
 
         return hairstyleToDelete;
+    }
+
+    @Override
+    //Edit only variables which are not nulls, otherwise do nothing
+    public Optional<Hairstyle> editHairstyleById(UUID id, Hairstyle newHairstyle) {
+        Optional<Hairstyle> hairstyleToEdit = getHairstyleById(id);
+        hairstyleToEdit.ifPresent(hs-> hs = newHairstyle);
+
+        return hairstyleToEdit;
     }
 }

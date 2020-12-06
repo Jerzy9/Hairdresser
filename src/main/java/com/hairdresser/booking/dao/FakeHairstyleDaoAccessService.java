@@ -2,6 +2,7 @@ package com.hairdresser.booking.dao;
 
 import com.google.common.collect.Lists;
 import com.hairdresser.booking.model.Hairstyle;
+import com.hairdresser.booking.model.input.HairstyleInput;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -23,8 +24,9 @@ public class FakeHairstyleDaoAccessService implements HairstyleDao {
     );
 
     @Override
-    public Hairstyle insertHairstyle(UUID id, Hairstyle newHairstyle) {
-        Hairstyle newHS = new Hairstyle(id, newHairstyle.getName(), newHairstyle.getDescription(), newHairstyle.getTime(), newHairstyle.getPrice());
+    public Hairstyle insertHairstyle(HairstyleInput newHairstyleInput) {
+        UUID id = UUID.randomUUID();
+        Hairstyle newHS = new Hairstyle(id, newHairstyleInput.getName(), newHairstyleInput.getDescription(), newHairstyleInput.getTime(), newHairstyleInput.getPrice());
         hairstyles.add(newHS);
         return newHS;
     }
@@ -49,8 +51,8 @@ public class FakeHairstyleDaoAccessService implements HairstyleDao {
 
     @Override
     //Edit only variables which are not nulls, otherwise do nothing
-    public Optional<Hairstyle> editHairstyleById(UUID id, Hairstyle newHairstyle) {
-        Optional<Hairstyle> hairstyleToEdit = getHairstyleById(id);
+    public Optional<Hairstyle> editHairstyleById(Hairstyle newHairstyle) {
+        Optional<Hairstyle> hairstyleToEdit = getHairstyleById(newHairstyle.getId());
         hairstyleToEdit.ifPresent(hs-> hs = newHairstyle);
 
         return hairstyleToEdit;

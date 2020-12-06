@@ -11,7 +11,7 @@ type Query {
 
 #Root Mutation
 type Mutation {
-    insertHairstyle(hairstyle: HairstyleInput!): Hairstyle
+    insertHairstyle(newHairstyleInput: HairstyleInput!): Hairstyle
     deleteHairstyleById(id: ID!): Hairstyle
     editHairstyleById(id:ID!, hairstyle:HairstyleInput!): Hairstyle
 }

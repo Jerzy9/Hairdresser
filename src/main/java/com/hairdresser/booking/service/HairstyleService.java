@@ -3,6 +3,7 @@ package com.hairdresser.booking.service;
 import com.hairdresser.booking.dao.HairstyleDao;
 import com.hairdresser.booking.exception.HairstyleNotFoundException;
 import com.hairdresser.booking.model.Hairstyle;
+import com.hairdresser.booking.model.input.HairstyleInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,8 +19,8 @@ public class HairstyleService {
     @Autowired @Qualifier("fake")
     private final HairstyleDao hairstyleDao;
 
-    public Hairstyle insertHairstyle(Hairstyle newHairstyle) {
-        return hairstyleDao.insertHairstyle(newHairstyle);
+    public Hairstyle insertHairstyle(HairstyleInput newHairstyleInput) {
+        return hairstyleDao.insertHairstyle(newHairstyleInput);
     }
 
     public Hairstyle getHairstyleById(UUID id) {
@@ -37,15 +38,15 @@ public class HairstyleService {
     }
 
     //Edit only variables which are't nulls, otherwise do nothing
-    public Hairstyle editHairstyleById(UUID id, Hairstyle newHairstyle) {
+    public Hairstyle editHairstyleById(UUID id, HairstyleInput hairstyleInput) {
         //Get hairstyle which will be edited
         Optional<Hairstyle> hairstyleToEdit = hairstyleDao.getHairstyleById(id);
 
         //Store new variables
-        String newName = newHairstyle.getName();
-        String newDescription = newHairstyle.getDescription();
-        float newPrice = newHairstyle.getPrice();
-        int newTime = newHairstyle.getTime();
+        String newName = hairstyleInput.getName();
+        String newDescription = hairstyleInput.getDescription();
+        float newPrice = hairstyleInput.getPrice();
+        int newTime = hairstyleInput.getTime();
 
         //Replace variables given by user
         hairstyleToEdit.ifPresent(hs-> {
@@ -56,7 +57,7 @@ public class HairstyleService {
         });
 
         //Replace old object with the edited one in database
-        Optional<Hairstyle> hairstyleEdited = hairstyleDao.editHairstyleById(id, hairstyleToEdit.get());
+        Optional<Hairstyle> hairstyleEdited = hairstyleDao.editHairstyleById(hairstyleToEdit.get());
 
         return hairstyleEdited.orElseThrow(HairstyleNotFoundException::new);
     }

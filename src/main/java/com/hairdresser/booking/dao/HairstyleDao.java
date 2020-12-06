@@ -1,6 +1,7 @@
 package com.hairdresser.booking.dao;
 
 import com.hairdresser.booking.model.Hairstyle;
+import com.hairdresser.booking.model.input.HairstyleInput;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,12 +9,7 @@ import java.util.UUID;
 
 public interface HairstyleDao {
 
-    Hairstyle insertHairstyle(UUID id, Hairstyle newHairstyle);
-
-    default Hairstyle insertHairstyle(Hairstyle newHairstyle) {
-        UUID randomId = UUID.randomUUID();
-        return insertHairstyle(randomId, newHairstyle);
-    }
+    Hairstyle insertHairstyle(HairstyleInput newHairstyleInput);
 
     Optional<Hairstyle> getHairstyleById(UUID id);
 
@@ -21,5 +17,5 @@ public interface HairstyleDao {
 
     Optional<Hairstyle> deleteHairstyleById(UUID id);
 
-    Optional<Hairstyle> editHairstyleById(UUID id, Hairstyle newHairstyle);
+    Optional<Hairstyle> editHairstyleById(Hairstyle newHairstyle);
 }

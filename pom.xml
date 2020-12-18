@@ -12,7 +12,7 @@
 	<artifactId>booking</artifactId>
 	<version>1.0</version>
 	<name>booking</name>
-	<description>Booking a visit to the hairdresser</description>
+	<description>Booking a visit to the hairdresser test</description>
 
 	<properties>
 		<java.version>11</java.version>

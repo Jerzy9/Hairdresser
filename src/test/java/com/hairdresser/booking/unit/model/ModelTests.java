@@ -13,7 +13,7 @@ public class ModelTests {
     private Hairstyle hairstyle;
 
     @Test
-    public void createServ_fulfillWithDate_ReturnData() {
+    public void createHairstyle_fulfillWithDate_ReturnData() {
         UUID id = UUID.randomUUID();
         String name = "Haircut";
         String description = "Simple haircut with scissors";

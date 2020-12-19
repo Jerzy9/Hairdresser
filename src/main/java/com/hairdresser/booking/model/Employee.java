@@ -19,6 +19,6 @@ public class Employee {
     private UUID id;
     private String name;
     private String description;
-    private List<UUID> hairstyles;
+    private List<UUID> hairstyles;      //it stores only IDs, to avoid duplicating objects and lack of synchronization
     private Calendar calendar;
 }

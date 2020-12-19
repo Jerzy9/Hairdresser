@@ -18,16 +18,16 @@ public class Mutation implements GraphQLMutationResolver {
     private final EmployeeService employeeService;
 
     //Hairstyle
-    public Hairstyle insertHairstyle(HairstyleInput newHairstyleInput) {
-        return hairstyleService.insertHairstyle(newHairstyleInput);
+    public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {
+        return hairstyleService.insertHairstyle(hairstyleInput);
     }
 
     public Hairstyle deleteHairstyleById(UUID id) {
         return hairstyleService.deleteHairstyleById(id);
     }
 
-    public Hairstyle editHairstyleById(UUID id, HairstyleInput newHairstyleInput) {
-        return hairstyleService.editHairstyleById(id, newHairstyleInput);
+    public Hairstyle editHairstyleById(UUID id, HairstyleInput hairstyleInput) {
+        return hairstyleService.editHairstyleById(id, hairstyleInput);
     }
 
     //Employee

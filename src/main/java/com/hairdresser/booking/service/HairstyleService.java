@@ -19,8 +19,8 @@ public class HairstyleService {
     @Autowired @Qualifier("fakeHairstyle")
     private final HairstyleDao hairstyleDao;
 
-    public Hairstyle insertHairstyle(HairstyleInput newHairstyleInput) {
-        return hairstyleDao.insertHairstyle(newHairstyleInput);
+    public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {
+        return hairstyleDao.insertHairstyle(hairstyleInput);
     }
 
     public Hairstyle getHairstyleById(UUID id) {

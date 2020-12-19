@@ -24,9 +24,9 @@ public class FakeHairstyleDaoAccessService implements HairstyleDao {
     );
 
     @Override
-    public Hairstyle insertHairstyle(HairstyleInput newHairstyleInput) {
+    public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {
         UUID id = UUID.randomUUID();
-        Hairstyle newHS = new Hairstyle(id, newHairstyleInput.getName(), newHairstyleInput.getDescription(), newHairstyleInput.getTime(), newHairstyleInput.getPrice());
+        Hairstyle newHS = new Hairstyle(id, hairstyleInput.getName(), hairstyleInput.getDescription(), hairstyleInput.getTime(), hairstyleInput.getPrice());
         hairstyles.add(newHS);
         return newHS;
     }
@@ -51,9 +51,9 @@ public class FakeHairstyleDaoAccessService implements HairstyleDao {
 
     @Override
     //Edit only variables which are not nulls, otherwise do nothing
-    public Optional<Hairstyle> editHairstyleById(Hairstyle newHairstyle) {
-        Optional<Hairstyle> hairstyleToEdit = getHairstyleById(newHairstyle.getId());
-        hairstyleToEdit.ifPresent(hs-> hs = newHairstyle);
+    public Optional<Hairstyle> editHairstyleById(Hairstyle hairstyle) {
+        Optional<Hairstyle> hairstyleToEdit = getHairstyleById(hairstyle.getId());
+        hairstyleToEdit.ifPresent(hs-> hs = hairstyle);
 
         return hairstyleToEdit;
     }

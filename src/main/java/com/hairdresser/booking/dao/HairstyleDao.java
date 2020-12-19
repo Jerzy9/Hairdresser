@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface HairstyleDao {
 
-    Hairstyle insertHairstyle(HairstyleInput newHairstyleInput);
+    Hairstyle insertHairstyle(HairstyleInput hairstyleInput);
 
     Optional<Hairstyle> getHairstyleById(UUID id);
 
@@ -17,5 +17,5 @@ public interface HairstyleDao {
 
     Optional<Hairstyle> deleteHairstyleById(UUID id);
 
-    Optional<Hairstyle> editHairstyleById(Hairstyle newHairstyle);
+    Optional<Hairstyle> editHairstyleById(Hairstyle hairstyle);
 }

@@ -11,19 +11,19 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository("fakeEmployee")
-public class FakeEmployeeDaoAccessService implements EmployeeDao{
+public class FakeEmployeeDaoAccessService implements EmployeeDao {
 
     private List<Employee> employees = Lists.newArrayList(
             new Employee(UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d"),
                     "Adam",
                     "Hairdresser senior",
                     Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
-                    new Calendar()),
-            new Employee(UUID.randomUUID(),
+                    new Calendar(UUID.randomUUID())),
+            new Employee(UUID.fromString("5c0d8d00-57ca-4968-8c4a-30a5028a8f9b"),
                     "Monika",
                     "Hairdresser junior",
                     Lists.newArrayList(UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
-                    new Calendar())
+                    new Calendar(UUID.randomUUID()))
             );
 
     @Override

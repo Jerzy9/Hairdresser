@@ -33,7 +33,7 @@ public class EmployeeService {
         return optionalEmployee.orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public List<Employee> getAllEmployee() {
+    public List<Employee> getAllEmployees() {
         return employeeDao.getAllEmployees();
     }
 

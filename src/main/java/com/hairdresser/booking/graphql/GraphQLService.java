@@ -3,6 +3,7 @@ package com.hairdresser.booking.graphql;
 import com.coxautodev.graphql.tools.SchemaParserBuilder;
 import com.hairdresser.booking.graphql.resolver.Mutation;
 import com.hairdresser.booking.graphql.resolver.Query;
+import com.hairdresser.booking.service.EmployeeService;
 import com.hairdresser.booking.service.HairstyleService;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
@@ -18,7 +19,9 @@ public class GraphQLService {
 
     private GraphQL graphQL;
     @Autowired
-    private HairstyleService hairstyleService;
+    private HairstyleService hairstyleService;      //make these finale ??
+    @Autowired
+    private EmployeeService employeeService;
 
     @PostConstruct
     private void loadSchema(){
@@ -30,8 +33,8 @@ public class GraphQLService {
         return new SchemaParserBuilder()
                 .file("graphql/main.graphqls")
                 .resolvers(
-                        new Query(hairstyleService),
-                        new Mutation(hairstyleService)
+                        new Query(hairstyleService, employeeService),
+                        new Mutation(hairstyleService, employeeService)
                 )
                 .build()
                 .makeExecutableSchema();

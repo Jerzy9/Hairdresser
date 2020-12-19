@@ -16,7 +16,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class HairstyleService {
-    @Autowired @Qualifier("fake")
+    @Autowired @Qualifier("fakeHairstyle")
     private final HairstyleDao hairstyleDao;
 
     public Hairstyle insertHairstyle(HairstyleInput newHairstyleInput) {

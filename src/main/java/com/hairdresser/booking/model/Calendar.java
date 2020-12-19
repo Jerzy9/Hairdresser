@@ -15,4 +15,6 @@ import java.util.UUID;
 public class Calendar {
     @Id
     private UUID id;
+
+    //It will be implemented in near future..
 }

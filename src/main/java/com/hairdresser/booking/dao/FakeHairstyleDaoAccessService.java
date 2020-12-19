@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository("fake")
+@Repository("fakeHairstyle")
 public class FakeHairstyleDaoAccessService implements HairstyleDao {
 
     private List<Hairstyle> hairstyles = Lists.newArrayList(
-            new Hairstyle(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), "first", "first desc", 35, 20),
-            new Hairstyle(UUID.randomUUID(), "second", "second desc", 55, 60),
+            new Hairstyle(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), "first", "difficult hairstyle", 35, 20),
+            new Hairstyle(UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec"), "second", "easy hairstyle", 55, 60),
             new Hairstyle(UUID.randomUUID(), "third", "third desc", 150, 45),
             new Hairstyle(UUID.randomUUID(), "forth", "forth desc", 180, 20),
             new Hairstyle(UUID.randomUUID(), "fifth", "fifth desc", 35, 60),

@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class Hairstyle {
+
     @Id
     private UUID id;
     private String name;

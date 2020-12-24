@@ -18,12 +18,12 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
                     "Adam",
                     "Hairdresser senior",
                     Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
-                    new Calendar(UUID.randomUUID())),
+                    new Calendar()),
             new Employee(UUID.fromString("5c0d8d00-57ca-4968-8c4a-30a5028a8f9b"),
                     "Monika",
                     "Hairdresser junior",
                     Lists.newArrayList(UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
-                    new Calendar(UUID.randomUUID()))
+                    new Calendar())
             );
 
     @Override

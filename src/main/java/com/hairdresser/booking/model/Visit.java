@@ -6,18 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Calendar {
+public class Visit {
 
     @Id
-    private UUID id = UUID.randomUUID();
-    private List<Day> workDays = new ArrayList<>();
+    private UUID id;
+    private UUID client;
+    private UUID hairstyle;
+    private int start;
+    private int end;
+    private String description;
 
 }

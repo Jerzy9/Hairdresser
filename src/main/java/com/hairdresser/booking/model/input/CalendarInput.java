@@ -1,11 +1,14 @@
 package com.hairdresser.booking.model.input;
 
+import com.hairdresser.booking.model.Day;
+import com.hairdresser.booking.model.Visit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -13,8 +16,6 @@ import java.util.UUID;
 @Builder
 public class CalendarInput {
 
-    private UUID id;
-
-    //It will be implemented in near future..
-    //And id will be missing
+    private List<Visit> visits;
+    private List<Day> workDays;
 }

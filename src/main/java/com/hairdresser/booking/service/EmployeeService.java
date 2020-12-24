@@ -4,15 +4,15 @@ import com.hairdresser.booking.dao.EmployeeDao;
 import com.hairdresser.booking.exception.EmployeeNotFoundException;
 import com.hairdresser.booking.model.Calendar;
 import com.hairdresser.booking.model.Employee;
+import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.input.EmployeeInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,5 +65,54 @@ public class EmployeeService {
         Optional<Employee> employeeEdited = employeeDao.editEmployeeById(employeeToEdit.get());
 
         return employeeEdited.orElseThrow(EmployeeNotFoundException::new);
+    }
+
+
+    public List<Employee> getEmployeesWithThisHairstyle(UUID hairstyleId) {
+        // get all employees
+        return employeeDao.getAllEmployees().stream().filter(emp -> {
+
+            // return only employees who are able to make given hairstyle
+           return emp.getHairstyles().stream().anyMatch(id -> id.equals(hairstyleId));
+       }).collect(Collectors.toList());
+    }
+
+    public List<Integer> getAvailableDatesOfVisit(UUID employeeId, int time) {
+        Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
+        int breakTime = 15*60;
+        List<Integer> possibleVisitTimeTables = new ArrayList<>();
+
+        //For every day in work, print possible dates for new visit
+        if(employee.isPresent()) {
+            for (Day day : employee.get().getCalendar().getWorkDays()) {
+
+                int start = day.getStart();
+                int endOfTheDay = day.getEnd();
+                int sum = start + time + breakTime;
+
+                //If List<Visit> is empty, just add every possible date
+                if (day.getVisits().isEmpty()) {
+                    for (int i = start; i < endOfTheDay ; i+=breakTime)
+                        possibleVisitTimeTables.add(i);
+
+                } else {
+                    int i = 0;
+                    while (sum < endOfTheDay) {
+
+                        if (sum < day.getVisits().get(i).getStart()) {
+                            possibleVisitTimeTables.add(start);
+                            start +=breakTime;
+                        } else {
+                            i++;
+                            start = day.getVisits().get(i).getStart();
+                        }
+                        sum = start + time + breakTime;
+                    }
+
+                }
+
+            }
+        }
+        return possibleVisitTimeTables;
     }
 }

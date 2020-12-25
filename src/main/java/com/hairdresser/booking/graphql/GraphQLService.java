@@ -19,9 +19,9 @@ public class GraphQLService {
 
     private GraphQL graphQL;
     @Autowired
-    private HairstyleService hairstyleService;      //make these finale ??
+    private final HairstyleService hairstyleService;
     @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @PostConstruct
     private void loadSchema(){

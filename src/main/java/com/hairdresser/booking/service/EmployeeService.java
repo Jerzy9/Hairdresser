@@ -67,7 +67,6 @@ public class EmployeeService {
         return employeeEdited.orElseThrow(EmployeeNotFoundException::new);
     }
 
-
     public List<Employee> getEmployeesWithThisHairstyle(UUID hairstyleId) {
         // get all employees
         return employeeDao.getAllEmployees().stream().filter(emp -> {
@@ -85,32 +84,32 @@ public class EmployeeService {
         //For every day in work, print possible dates for new visit
         if(employee.isPresent()) {
             for (Day day : employee.get().getCalendar().getWorkDays()) {
-
                 int start = day.getStart();
                 int endOfTheDay = day.getEnd();
                 int sum = start + time + breakTime;
 
-                //If List<Visit> is empty, just add every possible date
-                if (day.getVisits().isEmpty()) {
-                    for (int i = start; i < endOfTheDay ; i+=breakTime)
-                        possibleVisitTimeTables.add(i);
-
-                } else {
+                //First check, if there any are already booked visits for that day,
+                //If there are, check each break between these visits and try to fit there a new visit
+                //When the break is too short, go to the next one
+                if(!day.getVisits().isEmpty()) {
                     int i = 0;
-                    while (sum < endOfTheDay) {
+                    int length = day.getVisits().size();
+                    while (i < length && sum < endOfTheDay) {
 
                         if (sum < day.getVisits().get(i).getStart()) {
                             possibleVisitTimeTables.add(start);
                             start +=breakTime;
                         } else {
+                            start = day.getVisits().get(i).getEnd() + breakTime;
                             i++;
-                            start = day.getVisits().get(i).getStart();
                         }
                         sum = start + time + breakTime;
                     }
-
                 }
-
+                //Add available dates, if there was no visit at all on that day or
+                //when there was a time between last visit and end of the work
+                for (int i = start; i < endOfTheDay - time; i+=breakTime)
+                    possibleVisitTimeTables.add(i);
             }
         }
         return possibleVisitTimeTables;

@@ -2,10 +2,14 @@ package com.hairdresser.booking.dao;
 
 import com.google.common.collect.Lists;
 import com.hairdresser.booking.model.Calendar;
+import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.Employee;
+import com.hairdresser.booking.model.Visit;
 import com.hairdresser.booking.model.input.EmployeeInput;
+import org.checkerframework.checker.nullness.Opt;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,12 +30,11 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
                     new Calendar())
             );
 
+    ////**Employees**////
     @Override
-    public Employee insertEmployee(EmployeeInput employeeInput) {
-        UUID id = UUID.randomUUID();
-        Employee newEmp = new Employee(id, employeeInput.getName(), employeeInput.getDescription(), employeeInput.getHairstyles(), employeeInput.getCalendar());
-        employees.add(newEmp);
-        return newEmp;
+    public Employee insertEmployee(Employee employee) {
+        employees.add(employee);
+        return employee;
     }
 
     @Override
@@ -55,9 +58,80 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
     @Override
     //Edit only variables which are not nulls, otherwise do nothing
     public Optional<Employee> editEmployeeById(Employee employee) {
-        Optional<Employee> hairstyleToEdit = getEmployeeById(employee.getId());
-        hairstyleToEdit.ifPresent(emp-> emp = employee);
+        Optional<Employee> employeeToEdit = getEmployeeById(employee.getId());
+        employeeToEdit.ifPresent(emp-> emp = employee);
 
-        return hairstyleToEdit;
+        return employeeToEdit;
+    }
+
+
+    ////**Days**////
+    @Override
+    public Optional<Day> insertDayAtWork(UUID employeeId, Day day) {
+        Optional<Employee> employee = getEmployeeById(employeeId);
+
+        employee.ifPresent(emp -> {
+            emp.getCalendar().getDaysAtWork().add(day);
+        });
+        return getDayAtWorkById(employeeId, day.getId());
+    }
+
+    @Override
+    public Optional<Day> getDayAtWorkById(UUID employeeId, UUID dayId) {
+        Optional<Employee> employee = getEmployeeById(employeeId);
+        Optional<Day> day = Optional.empty();
+
+        if (employee.isPresent())
+            day = employee.get().getCalendar().getDaysAtWork().stream().filter(d -> d.getId().equals(dayId)).findFirst();
+
+        return day;
+    }
+
+    @Override
+    public Optional<List<Day>> getAllDaysAtWork(UUID employeeId) {
+        Optional<Employee> employee = getEmployeeById(employeeId);
+        Optional<List<Day>> daysAtWork = Optional.empty();
+
+        if(employee.isPresent())
+            daysAtWork = Optional.ofNullable(employee.get().getCalendar().getDaysAtWork());
+
+        return daysAtWork;
+    }
+
+    @Override
+    public Optional<Day> deleteDayById(UUID employeeId, UUID dayId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Day> editDayById(UUID employeeId, Day day) {
+        return Optional.empty();
+    }
+
+
+    ////**Visits**////
+    @Override
+    public Optional<Visit> insertVisit(UUID employeeId, UUID dayId, Visit visit) {
+        return null;
+    }
+
+    @Override
+    public Optional<Visit> getVisitById(UUID employeeId, UUID dayId, UUID visitId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<Visit>> getAllVisits(UUID employeeId, UUID dayId) {
+        return null;
+    }
+
+    @Override
+    public Optional<Visit> deleteVisitById(UUID employeeId, UUID dayId, UUID visitId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Visit> editVisitById(UUID employeeId, UUID dayId, Visit visit) {
+        return Optional.empty();
     }
 }

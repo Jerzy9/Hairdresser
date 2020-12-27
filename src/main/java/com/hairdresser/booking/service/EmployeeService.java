@@ -5,6 +5,7 @@ import com.hairdresser.booking.exception.EmployeeNotFoundException;
 import com.hairdresser.booking.model.Calendar;
 import com.hairdresser.booking.model.Employee;
 import com.hairdresser.booking.model.Day;
+import com.hairdresser.booking.model.input.CalendarInput;
 import com.hairdresser.booking.model.input.EmployeeInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,10 @@ public class EmployeeService {
     private final EmployeeDao employeeDao;
 
     public Employee insertEmployee(EmployeeInput employeeInput) {
-        // If calendar model will be ready,
-        // there is a place for basic calendar config(in separate method)
-        // e.g. employee.setCalendar(basicConfig(employee.getCalendar()));
+        UUID id = UUID.randomUUID();
+        Employee newEmp = new Employee(id, employeeInput.getName(), employeeInput.getDescription(), employeeInput.getHairstyles(), new Calendar());
 
-        return employeeDao.insertEmployee(employeeInput);
+        return employeeDao.insertEmployee(newEmp);
     }
 
     public Employee getEmployeeById(UUID id) {
@@ -51,14 +51,12 @@ public class EmployeeService {
         String newName = employeeInput.getName();
         String newDescription = employeeInput.getDescription();
         List<UUID> newHairstyles = employeeInput.getHairstyles();
-        Calendar newCalendar = employeeInput.getCalendar();
 
         //Replace variables given by user
         employeeToEdit.ifPresent(emp -> {
             if(newName != null) emp.setName(newName);
             if(newDescription != null) emp.setDescription(newDescription);
             if(newHairstyles != null) emp.setHairstyles(newHairstyles);
-            if (newCalendar != null) emp.setCalendar(newCalendar);
         });
 
         //Replace old object with the edited one
@@ -83,7 +81,7 @@ public class EmployeeService {
 
         //For every day in work, print possible dates for new visit
         if(employee.isPresent()) {
-            for (Day day : employee.get().getCalendar().getWorkDays()) {
+            for (Day day : employee.get().getCalendar().getDaysAtWork()) {
                 int start = day.getStart();
                 int endOfTheDay = day.getEnd();
                 int sum = start + time + breakTime;

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Visit {
 
     @Id
-    private UUID id;
+    private UUID id = UUID.randomUUID();
     private UUID client;
     private UUID hairstyle;
     private int start;

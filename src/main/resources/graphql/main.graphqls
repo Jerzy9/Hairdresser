@@ -25,6 +25,9 @@ type Mutation {
     insertEmployee(employee: EmployeeInput!): Employee
     deleteEmployeeById(id: ID!): Employee
     editEmployeeById(id:ID!, employee:EmployeeInput!): Employee
+
+    #Calendar
+    editCalendarByEmployeeId(id: ID!, calendar:CalendarInput!): Calendar
 }
 
 
@@ -57,16 +60,45 @@ input EmployeeInput {
     name: String
     description: String
     hairstyles: [ID]
-    calendar: CalendarInput
 }
 
 #Calendar
 type Calendar {
-    #not implemented yet
     id: ID
+    daysAtWork: [Day]
+    historyOfWork: [Day]
 }
 
 input CalendarInput {
-    #not implemented yet, ID won't be here
+    daysAtWork: [DayInput]
+}
+
+#Day
+type Day {
     id: ID
+    start: Int
+    end: Int
+    visits: [Visit]
+}
+input DayInput {
+    start: Int
+    end: Int
+    visits: [VisitInput]
+}
+
+#Visit
+type Visit {
+    id: ID
+    client: ID
+    hairstyle: ID
+    start: Int
+    end: Int
+    description: String
+}
+input VisitInput {
+    client: ID
+    hairstyle: ID
+    start: Int
+    end: Int
+    description: String
 }

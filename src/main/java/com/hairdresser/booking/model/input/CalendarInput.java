@@ -1,7 +1,6 @@
 package com.hairdresser.booking.model.input;
 
 import com.hairdresser.booking.model.Day;
-import com.hairdresser.booking.model.Visit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +15,5 @@ import java.util.List;
 @Builder
 public class CalendarInput {
 
-    private List<Visit> visits;
-    private List<Day> workDays;
+    private List<Day> daysAtWork;
 }

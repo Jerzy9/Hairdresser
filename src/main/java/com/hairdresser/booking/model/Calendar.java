@@ -18,6 +18,7 @@ public class Calendar {
 
     @Id
     private UUID id = UUID.randomUUID();
-    private List<Day> workDays = new ArrayList<>();
+    private List<Day> daysAtWork = new ArrayList<>();
+    private List<Day> historyOfWork = new ArrayList<>();
 
 }

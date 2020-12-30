@@ -11,28 +11,26 @@ import java.util.*;
 public class FakeHairstyleDaoAccessService implements HairstyleDao {
 
     private List<Hairstyle> hairstyles = Lists.newArrayList(
-            new Hairstyle(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), "first", "difficult hairstyle", 35, 20),
-            new Hairstyle(UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec"), "second", "easy hairstyle", 55, 60),
-            new Hairstyle(UUID.randomUUID(), "third", "third desc", 150, 45),
-            new Hairstyle(UUID.randomUUID(), "forth", "forth desc", 180, 20),
-            new Hairstyle(UUID.randomUUID(), "fifth", "fifth desc", 35, 60),
-            new Hairstyle(UUID.randomUUID(), "sixth", "sixth desc", 70, 45),
-            new Hairstyle(UUID.randomUUID(), "seventh", "seventh desc", 20, 20),
-            new Hairstyle(UUID.randomUUID(), "eighth", "eighth desc", 50, 60),
-            new Hairstyle(UUID.randomUUID(), "ninth", "ninth desc", 15, 45),
-            new Hairstyle(UUID.randomUUID(), "tenth", "tenth desc", 40, 45)
+            new Hairstyle(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e").toString(), "first", "difficult hairstyle", 35, 20),
+            new Hairstyle(UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec").toString(), "second", "easy hairstyle", 55, 60),
+            new Hairstyle(UUID.randomUUID().toString(), "third", "third desc", 150, 45),
+            new Hairstyle(UUID.randomUUID().toString(), "forth", "forth desc", 180, 20),
+            new Hairstyle(UUID.randomUUID().toString(), "fifth", "fifth desc", 35, 60),
+            new Hairstyle(UUID.randomUUID().toString(), "sixth", "sixth desc", 70, 45),
+            new Hairstyle(UUID.randomUUID().toString(), "seventh", "seventh desc", 20, 20),
+            new Hairstyle(UUID.randomUUID().toString(), "eighth", "eighth desc", 50, 60),
+            new Hairstyle(UUID.randomUUID().toString(), "ninth", "ninth desc", 15, 45),
+            new Hairstyle(UUID.randomUUID().toString(), "tenth", "tenth desc", 40, 45)
     );
 
     @Override
-    public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {
-        UUID id = UUID.randomUUID();
-        Hairstyle newHS = new Hairstyle(id, hairstyleInput.getName(), hairstyleInput.getDescription(), hairstyleInput.getTime(), hairstyleInput.getPrice());
-        hairstyles.add(newHS);
-        return newHS;
+    public Hairstyle insertHairstyle(Hairstyle hairstyle) {
+        hairstyles.add(hairstyle);
+        return hairstyle;
     }
 
     @Override
-    public Optional<Hairstyle> getHairstyleById(UUID id) {
+    public Optional<Hairstyle> getHairstyleById(String id) {
         return hairstyles.stream().filter(hairstyle -> hairstyle.getId().equals(id)).findFirst();
     }
 
@@ -42,7 +40,7 @@ public class FakeHairstyleDaoAccessService implements HairstyleDao {
     }
 
     @Override
-    public Optional<Hairstyle> deleteHairstyleById(UUID id) {
+    public Optional<Hairstyle> deleteHairstyleById(String id) {
         Optional<Hairstyle> hairstyleToDelete = getHairstyleById(id);
         hairstyleToDelete.ifPresent(hs-> hairstyles.remove(hs));
 

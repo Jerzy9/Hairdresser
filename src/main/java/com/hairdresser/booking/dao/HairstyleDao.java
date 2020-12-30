@@ -1,21 +1,19 @@
 package com.hairdresser.booking.dao;
 
 import com.hairdresser.booking.model.Hairstyle;
-import com.hairdresser.booking.model.input.HairstyleInput;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface HairstyleDao {
 
-    Hairstyle insertHairstyle(HairstyleInput hairstyleInput);
+    Hairstyle insertHairstyle(Hairstyle hairstyle);
 
-    Optional<Hairstyle> getHairstyleById(UUID id);
+    Optional<Hairstyle> getHairstyleById(String id);
 
     List<Hairstyle> getAllHairstyles();
 
-    Optional<Hairstyle> deleteHairstyleById(UUID id);
+    Optional<Hairstyle> deleteHairstyleById(String id);
 
     Optional<Hairstyle> editHairstyleById(Hairstyle hairstyle);
 }

@@ -17,7 +17,7 @@ public class Query implements GraphQLQueryResolver {
     private final EmployeeService employeeService;
 
     //Hairstyle
-    public Hairstyle getHairstyleById(UUID id) {
+    public Hairstyle getHairstyleById(String id) {
         return hairstyleService.getHairstyleById(id);
     }
 

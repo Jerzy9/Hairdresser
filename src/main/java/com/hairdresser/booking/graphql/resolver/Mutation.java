@@ -26,11 +26,11 @@ public class Mutation implements GraphQLMutationResolver {
         return hairstyleService.insertHairstyle(hairstyleInput);
     }
 
-    public Hairstyle deleteHairstyleById(UUID id) {
+    public Hairstyle deleteHairstyleById(String id) {
         return hairstyleService.deleteHairstyleById(id);
     }
 
-    public Hairstyle editHairstyleById(UUID id, HairstyleInput hairstyleInput) {
+    public Hairstyle editHairstyleById(String id, HairstyleInput hairstyleInput) {
         return hairstyleService.editHairstyleById(id, hairstyleInput);
     }
 

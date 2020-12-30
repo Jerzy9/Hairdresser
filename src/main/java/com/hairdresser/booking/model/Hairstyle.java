@@ -5,17 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-
-import java.util.UUID;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Document
 public class Hairstyle {
 
     @Id
-    private UUID id;
+    private String id;
     private String name;
     private String description;
     private int time;

@@ -1,6 +1,7 @@
-package com.hairdresser.booking.dao;
+package com.hairdresser.booking.dao.fake;
 
 import com.google.common.collect.Lists;
+import com.hairdresser.booking.dao.EmployeeDao;
 import com.hairdresser.booking.model.Calendar;
 import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.Employee;
@@ -18,15 +19,15 @@ import java.util.UUID;
 public class FakeEmployeeDaoAccessService implements EmployeeDao {
 
     private List<Employee> employees = Lists.newArrayList(
-            new Employee(UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d"),
+            new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
                     "Adam",
                     "Hairdresser senior",
-                    Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                    Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                     new Calendar()),
-            new Employee(UUID.fromString("5c0d8d00-57ca-4968-8c4a-30a5028a8f9b"),
+            new Employee("5c0d8d00-57ca-4968-8c4a-30a5028a8f9b",
                     "Monika",
                     "Hairdresser junior",
-                    Lists.newArrayList(UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                    Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                     new Calendar())
             );
 
@@ -38,7 +39,7 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
     }
 
     @Override
-    public Optional<Employee> getEmployeeById(UUID id) {
+    public Optional<Employee> getEmployeeById(String id) {
         return employees.stream().filter(employee -> employee.getId().equals(id)).findFirst();
     }
 
@@ -48,7 +49,7 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
     }
 
     @Override
-    public Optional<Employee> deleteEmployeeById(UUID id) {
+    public Optional<Employee> deleteEmployeeById(String id) {
         Optional<Employee> employeeToDelete = getEmployeeById(id);
         employeeToDelete.ifPresent(emp-> employees.remove(emp));
 
@@ -67,7 +68,7 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
 
     ////**Days**////
     @Override
-    public Optional<Day> insertDayAtWork(UUID employeeId, Day day) {
+    public Optional<Day> insertDayAtWork(String employeeId, Day day) {
         Optional<Employee> employee = getEmployeeById(employeeId);
 
         employee.ifPresent(emp -> {
@@ -77,7 +78,7 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
     }
 
     @Override
-    public Optional<Day> getDayAtWorkById(UUID employeeId, UUID dayId) {
+    public Optional<Day> getDayAtWorkById(String employeeId, String dayId) {
         Optional<Employee> employee = getEmployeeById(employeeId);
         Optional<Day> day = Optional.empty();
 
@@ -88,7 +89,7 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
     }
 
     @Override
-    public Optional<List<Day>> getAllDaysAtWork(UUID employeeId) {
+    public Optional<List<Day>> getAllDaysAtWork(String employeeId) {
         Optional<Employee> employee = getEmployeeById(employeeId);
         Optional<List<Day>> daysAtWork = Optional.empty();
 
@@ -98,40 +99,40 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
         return daysAtWork;
     }
 
-    @Override
-    public Optional<Day> deleteDayById(UUID employeeId, UUID dayId) {
+       @Override
+    public Optional<Day> deleteDayById(String employeeId, String dayId) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Day> editDayById(UUID employeeId, Day day) {
+    public Optional<Day> editDayById(String employeeId, Day day) {
         return Optional.empty();
     }
 
 
     ////**Visits**////
     @Override
-    public Optional<Visit> insertVisit(UUID employeeId, UUID dayId, Visit visit) {
+    public Optional<Visit> insertVisit(String employeeId, String dayId, Visit visit) {
         return null;
     }
 
     @Override
-    public Optional<Visit> getVisitById(UUID employeeId, UUID dayId, UUID visitId) {
+    public Optional<Visit> getVisitById(String employeeId, String dayId, String visitId) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<List<Visit>> getAllVisits(UUID employeeId, UUID dayId) {
+    public Optional<List<Visit>> getAllVisits(String employeeId, String dayId) {
         return null;
     }
 
     @Override
-    public Optional<Visit> deleteVisitById(UUID employeeId, UUID dayId, UUID visitId) {
+    public Optional<Visit> deleteVisitById(String employeeId, String dayId, String visitId) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Visit> editVisitById(UUID employeeId, UUID dayId, Visit visit) {
+    public Optional<Visit> editVisitById(String employeeId, String dayId, Visit visit) {
         return Optional.empty();
     }
 }

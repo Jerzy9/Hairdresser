@@ -39,16 +39,16 @@ public class Mutation implements GraphQLMutationResolver {
         return employeeService.insertEmployee(employeeInput);
     }
 
-    public Employee deleteEmployeeById(UUID id) {
+    public Employee deleteEmployeeById(String id) {
         return employeeService.deleteEmployeeById(id);
     }
 
-    public Employee editEmployeeById(UUID id, EmployeeInput employeeInput) {
+    public Employee editEmployeeById(String id, EmployeeInput employeeInput) {
         return employeeService.editEmployeeById(id, employeeInput);
     }
 
     //Calendar
-    public Calendar editCalendarByEmployeeId(UUID employeeId, CalendarInput calendarInput) {
+    public Calendar editCalendarByEmployeeId(String employeeId, CalendarInput calendarInput) {
         return calendarService.editCalendarByEmployeeId(employeeId, calendarInput);
     }
 }

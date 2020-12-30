@@ -1,6 +1,7 @@
-package com.hairdresser.booking.dao;
+package com.hairdresser.booking.dao.fake;
 
 import com.google.common.collect.Lists;
+import com.hairdresser.booking.dao.HairstyleDao;
 import com.hairdresser.booking.model.Hairstyle;
 import com.hairdresser.booking.model.input.HairstyleInput;
 import org.springframework.stereotype.Repository;

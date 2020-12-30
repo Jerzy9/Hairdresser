@@ -20,8 +20,8 @@ public class EmployeeDaoTest {
 
     @Test
     public void insertDayAtWork_inputDayWithExistingEmployee_returnDay() {
-        Day day = new Day(UUID.randomUUID(), 10, 20, new ArrayList<>());
-        UUID employeeId = UUID.fromString("5c0d8d00-57ca-4968-8c4a-30a5028a8f9b");
+        Day day = new Day(UUID.randomUUID().toString(), 10, 20, new ArrayList<>());
+        String employeeId = "5c0d8d00-57ca-4968-8c4a-30a5028a8f9b";
 
         employeeDao.insertDayAtWork(employeeId, day);
         Optional<Day> dayFromDB = employeeDao.getDayAtWorkById(employeeId, day.getId());

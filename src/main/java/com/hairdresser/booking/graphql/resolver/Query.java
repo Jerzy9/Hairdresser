@@ -26,7 +26,7 @@ public class Query implements GraphQLQueryResolver {
     }
 
     //Employee
-    public Employee getEmployeeById(UUID id) {
+    public Employee getEmployeeById(String id) {
         return  employeeService.getEmployeeById(id);
     }
 

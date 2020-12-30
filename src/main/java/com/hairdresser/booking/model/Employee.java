@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -16,9 +15,9 @@ import java.util.UUID;
 public class Employee {
 
     @Id
-    private UUID id;
+    private String id;
     private String name;
     private String description;
-    private List<UUID> hairstyles;      //it stores only IDs, to avoid duplicating objects and lack of synchronization
+    private List<String> hairstyles;      //it stores only IDs, to avoid duplicating objects and lack of synchronization
     private Calendar calendar;
 }

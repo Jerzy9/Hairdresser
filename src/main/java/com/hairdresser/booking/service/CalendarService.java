@@ -17,7 +17,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class CalendarService {
     private final EmployeeDao employeeDao;
 
     //It clears whole calendar's daysAtWork and builds it from scratch with validated data
-    public Calendar editCalendarByEmployeeId(UUID employeeId, CalendarInput calendarInput) {
+    public Calendar editCalendarByEmployeeId(String employeeId, CalendarInput calendarInput) {
         Optional<Employee> employeeToEdit = employeeDao.getEmployeeById(employeeId);
         Optional<Calendar> calendar = employeeToEdit.map(Employee::getCalendar);
 
@@ -39,18 +38,18 @@ public class CalendarService {
 
             List<Visit> visits = new ArrayList<>();
             day.getVisits().forEach(visit -> {
-                UUID client = visit.getClient();
-                UUID hairstyle = visit.getHairstyle();
+                String client = visit.getClient();
+                String hairstyle = visit.getHairstyle();
                 int visitStart = visit.getStart();
                 int visitEnd = visit.getEnd();
                 String description = visit.getDescription();
 
                 if (client != null && hairstyle != null && visitStart > 0 && visitEnd > 0)
-                    visits.add(new Visit(UUID.randomUUID(), client, hairstyle, visitStart, visitEnd, description));
+                    visits.add(new Visit(null, client, hairstyle, visitStart, visitEnd, description));
             });
 
             if (start > 0 && end > 0)
-                newDaysAtWork.add(new Day(UUID.randomUUID(), start, end, visits));
+                newDaysAtWork.add(new Day(null, start, end, visits));
         });
 
         calendar.get().setDaysAtWork(newDaysAtWork);
@@ -60,7 +59,7 @@ public class CalendarService {
         return editedCalendar.orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public int moveDaysFromDaysAtWorkToHistory(UUID employeeId) {
+    public int moveDaysFromDaysAtWorkToHistory(String employeeId) {
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         int currentTime = (int) Instant.now().getEpochSecond();
 
@@ -81,7 +80,7 @@ public class CalendarService {
 
         for (int i = 0; i < 30; i++) {
             int am8 = today8am + (i*hours24);
-            Day day = new Day(UUID.randomUUID(), am8, am8+hours8, new ArrayList<>());
+            Day day = new Day(null, am8, am8+hours8, new ArrayList<>());
             daysAtWork.add(day);
         }
         calendar.setDaysAtWork(daysAtWork);

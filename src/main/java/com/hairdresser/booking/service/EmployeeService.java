@@ -22,13 +22,12 @@ public class EmployeeService {
     private final EmployeeDao employeeDao;
 
     public Employee insertEmployee(EmployeeInput employeeInput) {
-        UUID id = UUID.randomUUID();
-        Employee newEmp = new Employee(id, employeeInput.getName(), employeeInput.getDescription(), employeeInput.getHairstyles(), new Calendar());
+        Employee newEmp = new Employee(null, employeeInput.getName(), employeeInput.getDescription(), employeeInput.getHairstyles(), new Calendar());
 
         return employeeDao.insertEmployee(newEmp);
     }
 
-    public Employee getEmployeeById(UUID id) {
+    public Employee getEmployeeById(String id) {
         Optional<Employee> optionalEmployee = employeeDao.getEmployeeById(id);
         return optionalEmployee.orElseThrow(EmployeeNotFoundException::new);
     }
@@ -37,20 +36,20 @@ public class EmployeeService {
         return employeeDao.getAllEmployees();
     }
 
-    public Employee deleteEmployeeById(UUID id) {
+    public Employee deleteEmployeeById(String id) {
         Optional<Employee> optionalEmployee = employeeDao.deleteEmployeeById(id);
         return optionalEmployee.orElseThrow(EmployeeNotFoundException::new);
     }
 
     //Edit only variables which are't nulls, otherwise do nothing
-    public Employee editEmployeeById(UUID id, EmployeeInput employeeInput) {
+    public Employee editEmployeeById(String id, EmployeeInput employeeInput) {
         //Get employee to edit
         Optional<Employee> employeeToEdit = employeeDao.getEmployeeById(id);
 
         //Store new variables
         String newName = employeeInput.getName();
         String newDescription = employeeInput.getDescription();
-        List<UUID> newHairstyles = employeeInput.getHairstyles();
+        List<String> newHairstyles = employeeInput.getHairstyles();
 
         //Replace variables given by user
         employeeToEdit.ifPresent(emp -> {
@@ -65,7 +64,7 @@ public class EmployeeService {
         return employeeEdited.orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public List<Employee> getEmployeesWithThisHairstyle(UUID hairstyleId) {
+    public List<Employee> getEmployeesWithThisHairstyle(String hairstyleId) {
         // get all employees
         return employeeDao.getAllEmployees().stream().filter(emp -> {
 
@@ -74,7 +73,7 @@ public class EmployeeService {
        }).collect(Collectors.toList());
     }
 
-    public List<Integer> getAvailableDatesOfVisit(UUID employeeId, int time) {
+    public List<Integer> getAvailableDatesOfVisit(String employeeId, int time) {
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         int breakTime = 15*60;
         List<Integer> possibleVisitTimeTables = new ArrayList<>();

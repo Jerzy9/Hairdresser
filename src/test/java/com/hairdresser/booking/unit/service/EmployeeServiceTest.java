@@ -29,18 +29,18 @@ public class EmployeeServiceTest {
 
     @Test
     public void getEmployeesWithThisHairstyle_inputHairstyleID_returnListOfEmployees() {
-        UUID hairstyleId = UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e");
+        String hairstyleId = "2b01e86f-f5ce-4415-9c9e-40340e201b9e";
 
         Mockito.when(employeeDao.getAllEmployees()).thenReturn(Lists.newArrayList(
-                new Employee(UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d"),
+                new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
                         "Adam",
                         "Hairdresser senior",
-                        Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                        Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                         new Calendar()),
-                new Employee(UUID.fromString("5c0d8d00-57ca-4968-8c4a-30a5028a8f9b"),
+                new Employee("5c0d8d00-57ca-4968-8c4a-30a5028a8f9b",
                         "Monika",
                         "Hairdresser junior",
-                        Lists.newArrayList(UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                        Lists.newArrayList("a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                         new Calendar())
         ));
 
@@ -52,20 +52,19 @@ public class EmployeeServiceTest {
 
     @Test
     public void getAvailableDatesOfVisits_inputEmptyVisits_returnListOfEveryDate() {
-        UUID hairstyleId = UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e");
-        UUID employeeId = UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d");
+        String employeeId = "3b7b4052-2603-4043-8f82-33a05b76f61d";
         int timeOfHairstyle = 30*60;
         int startOfWork = (int) Instant.now().getEpochSecond();
         int endOfWork = startOfWork + (8*60*60);
 
-        Employee employee = new Employee(UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d"),
+        Employee employee = new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
                 "Adam",
                 "Hairdresser senior",
-                Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                 new Calendar());
 
         //Empty List visits
-        Day newDay = new Day(UUID.randomUUID(), startOfWork ,endOfWork, new ArrayList<>());
+        Day newDay = new Day(UUID.randomUUID().toString(), startOfWork ,endOfWork, new ArrayList<>());
         employee.getCalendar().getDaysAtWork().add(newDay);
 
         Mockito.when(employeeDao.getEmployeeById(employeeId)).thenReturn(Optional.of(employee));
@@ -80,21 +79,20 @@ public class EmployeeServiceTest {
 
     @Test
     public void getAvailableDatesOfVisits_inputFewVisits_returnListOfAvailableDate() {
-        UUID hairstyleId = UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e");
-        UUID employeeId = UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d");
+        String employeeId = "3b7b4052-2603-4043-8f82-33a05b76f61d";
         int timeOfHairstyle = 35*60;
 
-        Employee employee = new Employee(UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d"),
+        Employee employee = new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
                 "Adam",
                 "Hairdresser senior",
-                Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                 new Calendar());
 
         //Empty List visits
-        Day newDay = new Day(UUID.randomUUID(), 1608796800 ,1608832800, Lists.newArrayList(
-                new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608801300, 1608805800,""),
-                new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608809400, 1608811200,""),
-                new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608815700, 1608825600,"")
+        Day newDay = new Day(UUID.randomUUID().toString(), 1608796800 ,1608832800, Lists.newArrayList(
+                new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608801300, 1608805800,""),
+                new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608809400, 1608811200,""),
+                new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608815700, 1608825600,"")
         ));
         employee.getCalendar().getDaysAtWork().add(newDay);
 
@@ -111,21 +109,20 @@ public class EmployeeServiceTest {
 
     @Test
     public void getAvailableDatesOfVisits_inputFullVisits_returnEmptyList() {
-        UUID hairstyleId = UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e");
-        UUID employeeId = UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d");
+        String employeeId = "3b7b4052-2603-4043-8f82-33a05b76f61d";
         int timeOfHairstyle = 70*60;
 
-        Employee employee = new Employee(UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d"),
+        Employee employee = new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
                 "Adam",
                 "Hairdresser senior",
-                Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                 new Calendar());
 
         //Empty List visits
-        Day newDay = new Day(UUID.randomUUID(), 1608796800 ,1608825600, Lists.newArrayList(
-                new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608801300, 1608805800,""),
-                new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608809400, 1608811200,""),
-                new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608815700, 1608825600,"")
+        Day newDay = new Day(UUID.randomUUID().toString(), 1608796800 ,1608832800, Lists.newArrayList(
+                new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608801300, 1608805800,""),
+                new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608809400, 1608811200,""),
+                new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608815700, 1608825600,"")
         ));
         employee.getCalendar().getDaysAtWork().add(newDay);
 
@@ -138,23 +135,23 @@ public class EmployeeServiceTest {
 
     @Test
     public void sortDaysInCalendar_inputListOfDays_returnSortedList() {
-        UUID employeeId = UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d");
+        String employeeId = "3b7b4052-2603-4043-8f82-33a05b76f61d";
 
-        Employee employee = new Employee(UUID.fromString("3b7b4052-2603-4043-8f82-33a05b76f61d"),
+        Employee employee = new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
                 "Adam",
                 "Hairdresser senior",
-                Lists.newArrayList(UUID.fromString("2b01e86f-f5ce-4415-9c9e-40340e201b9e"), UUID.fromString("a1fd9c09-c064-4c26-9d18-6151a369eeec")),
+                Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
                 new Calendar());
 
         //Few days to sort
         employee.getCalendar().setDaysAtWork(Lists.newArrayList(
-                new Day(UUID.randomUUID(), 1608796800+(48*60*60)  ,1608825600, Lists.newArrayList(
-                    new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608801300, 1608805800,"")
-            )), new Day(UUID.randomUUID(), 1608796800,1608825600, Lists.newArrayList(
-                    new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608801300, 1608805800,"")
+                new Day(UUID.randomUUID().toString(), 1608796800+(48*60*60)  ,1608825600, Lists.newArrayList(
+                        new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608801300, 1608805800,"")
+            )), new Day(UUID.randomUUID().toString(), 1608796800,1608825600, Lists.newArrayList(
+                        new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608801300, 1608805800,"")
                     )),
-                new Day(UUID.randomUUID(), 1608796800+(24*60*60) ,1608825600, Lists.newArrayList(
-                    new Visit(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 1608801300, 1608805800,"")
+                new Day(UUID.randomUUID().toString(), 1608796800+(24*60*60) ,1608825600, Lists.newArrayList(
+                        new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608801300, 1608805800,"")
 
                 ))
         ));

@@ -16,7 +16,7 @@ public class EmployeeInput {
 
     private String name;
     private String description;
-    private List<UUID> hairstyles;
+    private List<String> hairstyles;
     // Calendar has its own Input class
 
 }

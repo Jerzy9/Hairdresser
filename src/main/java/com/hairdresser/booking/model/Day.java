@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +17,7 @@ import java.util.UUID;
 public class Day implements Comparable<Day> {
 
     @Id
-    private UUID id;
+    private String id;
     private int start;
     private int end;
     private List<Visit> visits = new ArrayList<>();

@@ -16,7 +16,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class HairstyleService {
-    @Autowired @Qualifier("dynamoDBHairstyle")
+    @Autowired @Qualifier("MongoDBHairstyle")
     private final HairstyleDao hairstyleDao;
 
     public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {

@@ -20,12 +20,22 @@ public class EmployeeDaoTest {
 
     @Test
     public void insertDayAtWork_inputDayWithExistingEmployee_returnDay() {
-        Day day = new Day(UUID.randomUUID().toString(), 10, 20, new ArrayList<>());
-        String employeeId = "5c0d8d00-57ca-4968-8c4a-30a5028a8f9b";
+        Day day = new Day(null, 10, 20, new ArrayList<>());
+        String employeeId = "5fed0acfb722653adfedb2f3";
 
-        employeeDao.insertDayAtWork(employeeId, day);
-        Optional<Day> dayFromDB = employeeDao.getDayAtWorkById(employeeId, day.getId());
+        int sizeBefore = employeeDao.getEmployeeById(employeeId).get().getCalendar().getDaysAtWork().size();
+        Optional<Day> addedDay = employeeDao.insertDayAtWork(employeeId, day);
 
-        assertFalse(dayFromDB.isEmpty());
+
+        assertEquals(sizeBefore+1, employeeDao.getEmployeeById(employeeId).get().getCalendar().getDaysAtWork().size());
+    }
+
+    @Test
+    public void getDayAtWorkById_inputIds_returnDay() {
+        String employeeId = "5fed0acfb722653adfedb2f3";
+        String dayId = "5fed0acfb722673adfedb2e9";
+
+        Day day = employeeDao.getDayAtWorkById(employeeId, dayId).get();
+        assertEquals(dayId, day.getId());
     }
 }

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
-    @Autowired @Qualifier("fakeEmployee")
+    @Autowired @Qualifier("MongoDBEmployee")
     private final EmployeeDao employeeDao;
 
     public Employee insertEmployee(EmployeeInput employeeInput) {
@@ -66,11 +66,13 @@ public class EmployeeService {
 
     public List<Employee> getEmployeesWithThisHairstyle(String hairstyleId) {
         // get all employees
-        return employeeDao.getAllEmployees().stream().filter(emp -> {
+        Optional<List<Employee>> employees =  Optional.of(employeeDao.getAllEmployees().stream().filter(emp -> {
 
             // return only employees who are able to make given hairstyle
            return emp.getHairstyles().stream().anyMatch(id -> id.equals(hairstyleId));
-       }).collect(Collectors.toList());
+       }).collect(Collectors.toList()));
+
+        return employees.orElseThrow(EmployeeNotFoundException::new);
     }
 
     public List<Integer> getAvailableDatesOfVisit(String employeeId, int time) {

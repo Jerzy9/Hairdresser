@@ -17,12 +17,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class CalendarService {
 
-    @Autowired @Qualifier("fakeEmployee")
+    @Autowired @Qualifier("MongoDBEmployee")
     private final EmployeeDao employeeDao;
 
     //It clears whole calendar's daysAtWork and builds it from scratch with validated data
@@ -33,11 +34,13 @@ public class CalendarService {
         List<Day> newDaysAtWork = new ArrayList<>();
 
         calendarInput.getDaysAtWork().forEach(day -> {
+            String id = UUID.randomUUID().toString();
             int start = day.getStart();
             int end = day.getEnd();
 
             List<Visit> visits = new ArrayList<>();
             day.getVisits().forEach(visit -> {
+                String visitID = UUID.randomUUID().toString();
                 String client = visit.getClient();
                 String hairstyle = visit.getHairstyle();
                 int visitStart = visit.getStart();
@@ -45,11 +48,11 @@ public class CalendarService {
                 String description = visit.getDescription();
 
                 if (client != null && hairstyle != null && visitStart > 0 && visitEnd > 0)
-                    visits.add(new Visit(null, client, hairstyle, visitStart, visitEnd, description));
+                    visits.add(new Visit(visitID, client, hairstyle, visitStart, visitEnd, description));
             });
 
             if (start > 0 && end > 0)
-                newDaysAtWork.add(new Day(null, start, end, visits));
+                newDaysAtWork.add(new Day(id, start, end, visits));
         });
 
         calendar.get().setDaysAtWork(newDaysAtWork);

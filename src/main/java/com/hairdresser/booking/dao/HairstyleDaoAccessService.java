@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Primary
-@Repository("dynamoDBHairstyle")
+@Repository("MongoDBHairstyle")
 public class HairstyleDaoAccessService implements HairstyleDao {
 
     @Autowired
@@ -19,8 +19,7 @@ public class HairstyleDaoAccessService implements HairstyleDao {
 
     @Override
     public Hairstyle insertHairstyle(Hairstyle hairstyle) {
-        hairstyleMongoRepository.save(hairstyle);
-        return hairstyle;
+        return hairstyleMongoRepository.save(hairstyle);
     }
 
     @Override

@@ -1,15 +1,9 @@
 package com.hairdresser.booking.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.hairdresser.booking.model.Calendar;
-import com.hairdresser.booking.model.Employee;
-import com.hairdresser.booking.model.Hairstyle;
-import com.hairdresser.booking.model.input.CalendarInput;
-import com.hairdresser.booking.model.input.EmployeeInput;
-import com.hairdresser.booking.model.input.HairstyleInput;
-import com.hairdresser.booking.service.CalendarService;
-import com.hairdresser.booking.service.EmployeeService;
-import com.hairdresser.booking.service.HairstyleService;
+import com.hairdresser.booking.model.*;
+import com.hairdresser.booking.model.input.*;
+import com.hairdresser.booking.service.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
@@ -20,6 +14,8 @@ public class Mutation implements GraphQLMutationResolver {
     private final HairstyleService hairstyleService;
     private final EmployeeService employeeService;
     private final CalendarService calendarService;
+    private final DayService dayService;
+    private final VisitService visitService;
 
     //Hairstyle
     public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {
@@ -51,4 +47,23 @@ public class Mutation implements GraphQLMutationResolver {
     public Calendar editCalendarByEmployeeId(String employeeId, CalendarInput calendarInput) {
         return calendarService.editCalendarByEmployeeId(employeeId, calendarInput);
     }
+
+    //Day
+    public Day insertDay(String employeeId, DayInput dayInput) {
+        return dayService.insertDay(employeeId, dayInput);
+    }
+
+    public Day deleteDayById(String employeeId, String dayId) {
+        return dayService.deleteDayById(employeeId, dayId);
+    }
+
+    //Visit
+    public Visit insertVisit(String employeeId, String dayId, VisitInput visitInput) {
+        return visitService.insertVisit(employeeId, dayId, visitInput);
+    }
+
+    public Visit deleteVisitById(String employeeId, String dayId, String visitId) {
+        return visitService.deleteVisitById(employeeId, dayId, visitId);
+    }
+
 }

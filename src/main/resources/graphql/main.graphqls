@@ -12,6 +12,13 @@ type Query {
     #Employee
     getAllEmployees: [Employee]
     getEmployeeById(id: ID!): Employee
+    getEmployeesWithThisHairstyle(id: ID!): [Employee]
+
+    #Day
+#    getDayById(employeeId: ID!, dayId:ID!):Day
+
+    #Visit
+    getVisitById(employeeId: ID!, dayId: ID!, visitId: ID!):Visit
 }
 
 #Root Mutation
@@ -28,6 +35,13 @@ type Mutation {
 
     #Calendar
     editCalendarByEmployeeId(id: ID!, calendar:CalendarInput!): Calendar
+
+    #Day
+#    insertDay(employeeId: ID!, day:DayInput!):Day
+#    deleteDayById(employeeId: ID!, dayId:ID!):Day
+
+    insertVisit(employeeId: ID!, dayId: ID!, visit:VisitInput):Visit
+    deleteVisitById(employeeId: ID!, dayId: ID!, visitId: ID!):Visit
 }
 
 
@@ -64,7 +78,6 @@ input EmployeeInput {
 
 #Calendar
 type Calendar {
-    id: ID
     daysAtWork: [Day]
     historyOfWork: [Day]
 }
@@ -83,7 +96,7 @@ type Day {
 input DayInput {
     start: Int
     end: Int
-    visits: [VisitInput]
+    visits: [CalendarVisitInput]
 }
 
 #Visit
@@ -96,6 +109,13 @@ type Visit {
     description: String
 }
 input VisitInput {
+    client: ID
+    hairstyle: ID
+    start: Int
+    end: Int
+    description: String
+}
+input CalendarVisitInput {
     client: ID
     hairstyle: ID
     start: Int

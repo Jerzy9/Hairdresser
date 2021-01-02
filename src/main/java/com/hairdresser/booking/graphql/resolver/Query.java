@@ -1,15 +1,12 @@
 package com.hairdresser.booking.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import com.hairdresser.booking.model.Day;
-import com.hairdresser.booking.model.Employee;
-import com.hairdresser.booking.model.Hairstyle;
-import com.hairdresser.booking.model.Visit;
+import com.hairdresser.booking.model.*;
+import com.hairdresser.booking.model.Number;
 import com.hairdresser.booking.service.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class Query implements GraphQLQueryResolver {
@@ -43,8 +40,12 @@ public class Query implements GraphQLQueryResolver {
     }
 
     //Calendar
-    public List<Integer> getAvailableDatesOfVisit(String employeeId, int time) {
+    public List<Number> getAvailableDatesOfVisit(String employeeId, int time) {
         return calendarService.getAvailableDatesOfVisit(employeeId, time);
+    }
+
+    public Calendar basicCalendarConfig30Days(String employeeId) {
+        return calendarService.basicCalendarConfig30Days(employeeId);
     }
 
     //Day
@@ -55,6 +56,10 @@ public class Query implements GraphQLQueryResolver {
     //Visit
     public Visit getVisitById(String employeeId, String dayId, String visitId) {
         return visitService.getVisitById(employeeId, dayId, visitId);
+    }
+
+    public List<Visit> getAllVisits(String employeeId, String dayId) {
+        return visitService.getAllVisits(employeeId, dayId);
     }
 }
 

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import javax.print.attribute.standard.MediaSize;
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,16 +77,6 @@ public class EmployeeDaoAccessService implements EmployeeDao {
     }
 
     @Override
-    public Optional<List<Day>> getAllDaysAtWork(String employeeId) {
-        Optional<Employee> employee = getEmployeeById(employeeId);
-        Optional<List<Day>> list = Optional.empty();
-
-        if (employee.isPresent())
-            list = Optional.ofNullable(employee.get().getCalendar().getDaysAtWork());
-        return list;
-    }
-
-    @Override
     public Optional<Day> deleteDayById(String employeeId, String dayId) {
         Optional<Employee> employee = getEmployeeById(employeeId);
         Optional<Day> day = getDayAtWorkById(employeeId, dayId);
@@ -98,11 +86,6 @@ public class EmployeeDaoAccessService implements EmployeeDao {
             employeeMongoRepository.save(employee.get());
         }
         return day;
-    }
-
-    @Override
-    public Optional<Day> editDayById(String employeeId, Day day) {
-       return Optional.empty();
     }
 
     @Override
@@ -132,7 +115,12 @@ public class EmployeeDaoAccessService implements EmployeeDao {
 
     @Override
     public Optional<List<Visit>> getAllVisits(String employeeId, String dayId) {
-        return Optional.empty();
+        Optional<Day> day = getDayAtWorkById(employeeId, dayId);
+        Optional<List<Visit>> visits = Optional.empty();
+
+        if (day.isPresent())
+            visits = Optional.ofNullable(day.get().getVisits());
+        return visits;
     }
 
     @Override
@@ -147,10 +135,5 @@ public class EmployeeDaoAccessService implements EmployeeDao {
             }
         }));
         return visitToDelete;
-    }
-
-    @Override
-    public Optional<Visit> editVisitById(String employeeId, String dayId, Visit visit) {
-        return Optional.empty();
     }
 }

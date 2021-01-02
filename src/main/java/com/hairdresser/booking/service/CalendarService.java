@@ -5,6 +5,7 @@ import com.hairdresser.booking.exception.EmployeeNotFoundException;
 import com.hairdresser.booking.model.Calendar;
 import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.Employee;
+import com.hairdresser.booking.model.Number;
 import com.hairdresser.booking.model.Visit;
 import com.hairdresser.booking.model.input.CalendarInput;
 import lombok.RequiredArgsConstructor;
@@ -62,10 +63,10 @@ public class CalendarService {
         return editedCalendar.orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public List<Integer> getAvailableDatesOfVisit(String employeeId, int time) {
+    public List<Number> getAvailableDatesOfVisit(String employeeId, int time) {
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         int breakTime = 15*60;
-        List<Integer> possibleVisitTimeTables = new ArrayList<>();
+        List<Number> possibleVisitTimeTables = new ArrayList<>();
 
         //For every day in work, print possible dates for new visit
         if(employee.isPresent()) {
@@ -83,7 +84,7 @@ public class CalendarService {
                     while (i < length && sum < endOfTheDay) {
 
                         if (sum < day.getVisits().get(i).getStart()) {
-                            possibleVisitTimeTables.add(start);
+                            possibleVisitTimeTables.add(new Number(start));
                             start +=breakTime;
                         } else {
                             start = day.getVisits().get(i).getEnd() + breakTime;
@@ -95,7 +96,7 @@ public class CalendarService {
                 //Add available dates, if there was no visit at all on that day or
                 //when there was a time between last visit and end of the work
                 for (int i = start; i < endOfTheDay - time; i+=breakTime)
-                    possibleVisitTimeTables.add(i);
+                    possibleVisitTimeTables.add(new Number(i));
             }
         }
         return possibleVisitTimeTables;
@@ -109,24 +110,36 @@ public class CalendarService {
         return 1;
     }
 
-    public Calendar basicCalendarConfig30Days(Calendar calendar) {
-        List<Day> daysAtWork = new ArrayList<>();
-        int currentTime = (int) Instant.now().getEpochSecond();
-        int hours24 = 24*60*60;
-        int hours8 = 8*60*60;
+    public Calendar basicCalendarConfig30Days(String employeeId) {
+        Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
+        Optional<Calendar> calendar = Optional.empty();
+        System.out.println(employee);
 
-        int time8am24_12_2020 = 1608796800;
-        int rest = (currentTime-time8am24_12_2020) % (24*60*60);
-        int today8am = currentTime-rest;
-        System.out.println("Today's 8am: " + today8am);
+        if (employee.isPresent()) {
+            calendar = Optional.ofNullable(employee.get().getCalendar());
 
-        for (int i = 0; i < 30; i++) {
-            int am8 = today8am + (i*hours24);
-            Day day = new Day(null, am8, am8+hours8, new ArrayList<>());
-            daysAtWork.add(day);
+            List<Day> daysAtWork = calendar.get().getDaysAtWork();
+            int currentTime = (int) Instant.now().getEpochSecond();
+            int hours24 = 24 * 60 * 60;
+            int hours8 = 8 * 60 * 60;
+
+            int time8am24_12_2020 = 1608796800;
+            int rest = (currentTime - time8am24_12_2020) % (24 * 60 * 60);
+            int today8am = currentTime - rest;
+            System.out.println("Today's 8am: " + today8am);
+
+            for (int i = daysAtWork.size(); i < 30; i++) {
+
+                int am8 = today8am + (i * hours24);
+                Day day = new Day(null, am8, am8 + hours8, new ArrayList<>());
+                daysAtWork.add(day);
+            }
+            calendar.get().setDaysAtWork(daysAtWork);
+            employee.get().setCalendar(calendar.get());
+            employeeDao.editEmployeeById(employee.get());
+            System.out.println("IN");
         }
-        calendar.setDaysAtWork(daysAtWork);
-        return calendar;
+        return calendar.orElseThrow(EmployeeNotFoundException::new);
     }
 }
 

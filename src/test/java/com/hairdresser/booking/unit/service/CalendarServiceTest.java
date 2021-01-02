@@ -5,16 +5,14 @@ import com.hairdresser.booking.dao.EmployeeDao;
 import com.hairdresser.booking.model.Calendar;
 import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.Employee;
+import com.hairdresser.booking.model.Number;
 import com.hairdresser.booking.model.Visit;
 import com.hairdresser.booking.service.CalendarService;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -35,9 +33,16 @@ public class CalendarServiceTest {
 
     @Test
     public void basicConfig30Days_inputEmptyCalendar_returnCalendarWith30Days() {
-        Calendar calendar = new Calendar();
+        String employeeId = "5ff05c6a97d1a457d9f8dadd";
+        Employee employee = new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
+                "Adam",
+                "Hairdresser senior",
+                Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
+                new Calendar(new ArrayList<>(), new ArrayList<>()));
 
-        Calendar calendarAfterConfig = calendarService.basicCalendarConfig30Days(calendar);
+        Mockito.when(employeeDao.getEmployeeById(employeeId)).thenReturn(Optional.of(employee));
+
+        Calendar calendarAfterConfig = calendarService.basicCalendarConfig30Days(employeeId);
         assertEquals(30, calendarAfterConfig.getDaysAtWork().size());
         assertEquals(24*60*60, calendarAfterConfig.getDaysAtWork().get(1).getStart()-calendarAfterConfig.getDaysAtWork().get(0).getStart());
     }
@@ -61,12 +66,12 @@ public class CalendarServiceTest {
 
         Mockito.when(employeeDao.getEmployeeById(employeeId)).thenReturn(Optional.of(employee));
 
-        List<Integer> result = calendarService.getAvailableDatesOfVisit(employeeId, timeOfHairstyle);
+        List<Number> result = calendarService.getAvailableDatesOfVisit(employeeId, timeOfHairstyle);
         int lastVisit = endOfWork - ((30+15)*60);
 
         assertFalse(result.isEmpty());
-        assertEquals(startOfWork, (int) result.get(0));
-        assertEquals(lastVisit, (int)(result.get(result.size()-1)));
+        assertEquals(startOfWork, result.get(0).getNum());
+        assertEquals(lastVisit, (result.get(result.size()-1)).getNum());
     }
 
     @Test
@@ -88,12 +93,13 @@ public class CalendarServiceTest {
         ));
         employee.getCalendar().getDaysAtWork().add(newDay);
 
-        List<Integer> output = Lists.newArrayList(1608796800, 1608797700, 1608812100, 1608826500, 1608827400, 1608828300, 1608829200, 1608830100);
+        List<Number> output = Lists.newArrayList(new Number(1608796800),
+                new Number(1608797700), new Number(1608812100), new Number(1608826500), new Number(1608827400),
+                new Number(1608828300), new Number(1608829200), new Number(1608830100));
 
         Mockito.when(employeeDao.getEmployeeById(employeeId)).thenReturn(Optional.of(employee));
 
-        List<Integer> returns = calendarService.getAvailableDatesOfVisit(employeeId, timeOfHairstyle);
-        System.out.println(returns);
+        List<Number> returns = calendarService.getAvailableDatesOfVisit(employeeId, timeOfHairstyle);
         assertFalse(returns.isEmpty());
 
         assertEquals(output, returns);
@@ -111,7 +117,7 @@ public class CalendarServiceTest {
                 new Calendar());
 
         //Empty List visits
-        Day newDay = new Day(UUID.randomUUID().toString(), 1608796800 ,1608832800, Lists.newArrayList(
+        Day newDay = new Day(UUID.randomUUID().toString(), 1608796800 ,1608825600, Lists.newArrayList(
                 new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608801300, 1608805800,""),
                 new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608809400, 1608811200,""),
                 new Visit(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1608815700, 1608825600,"")
@@ -120,9 +126,7 @@ public class CalendarServiceTest {
 
         Mockito.when(employeeDao.getEmployeeById(employeeId)).thenReturn(Optional.of(employee));
 
-        List<Integer> returns = calendarService.getAvailableDatesOfVisit(employeeId, timeOfHairstyle);
-        System.out.println(returns);
+        List<Number> returns = calendarService.getAvailableDatesOfVisit(employeeId, timeOfHairstyle);
         assertTrue(returns.isEmpty());
     }
-
 }

@@ -20,14 +20,11 @@ public interface EmployeeDao {
     //Days
     Optional<Day> insertDayAtWork(String employeeId, Day day);
     Optional<Day> getDayAtWorkById(String employeeId, String dayId);
-    Optional<List<Day>> getAllDaysAtWork(String employeeId);
     Optional<Day> deleteDayById(String employeeId, String dayId);
-    Optional<Day> editDayById(String employeeId, Day day);
 
     //Visits
     Optional<Visit> insertVisit(String employeeId, String dayId, Visit visit);
     Optional<Visit> getVisitById(String employeeId, String dayId, String visitId);
     Optional<List<Visit>> getAllVisits(String employeeId, String dayId);
     Optional<Visit> deleteVisitById(String employeeId, String dayId, String visitId);
-    Optional<Visit> editVisitById(String employeeId, String dayId, Visit visit);
 }

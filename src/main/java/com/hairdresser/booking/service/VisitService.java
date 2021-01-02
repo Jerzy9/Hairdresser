@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,5 +32,9 @@ public class VisitService {
 
     public Visit deleteVisitById(String employeeId, String dayId, String visitId) {
         return employeeDao.deleteVisitById(employeeId, dayId, visitId).orElseThrow(VisitNotFoundException::new);
+    }
+
+    public List<Visit> getAllVisits(String employeeId, String dayId) {
+        return employeeDao.getAllVisits(employeeId, dayId).orElseThrow(DayNotFoundException::new);
     }
 }

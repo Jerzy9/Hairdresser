@@ -88,26 +88,12 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
         return day;
     }
 
-    @Override
-    public Optional<List<Day>> getAllDaysAtWork(String employeeId) {
-        Optional<Employee> employee = getEmployeeById(employeeId);
-        Optional<List<Day>> daysAtWork = Optional.empty();
-
-        if(employee.isPresent())
-            daysAtWork = Optional.ofNullable(employee.get().getCalendar().getDaysAtWork());
-
-        return daysAtWork;
-    }
 
        @Override
     public Optional<Day> deleteDayById(String employeeId, String dayId) {
         return Optional.empty();
     }
 
-    @Override
-    public Optional<Day> editDayById(String employeeId, Day day) {
-        return Optional.empty();
-    }
 
 
     ////**Visits**////
@@ -128,11 +114,6 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
 
     @Override
     public Optional<Visit> deleteVisitById(String employeeId, String dayId, String visitId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Visit> editVisitById(String employeeId, String dayId, Visit visit) {
         return Optional.empty();
     }
 }

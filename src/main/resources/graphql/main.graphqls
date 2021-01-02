@@ -15,13 +15,12 @@ type Query {
     getEmployeesWithThisHairstyle(id: ID!): [Employee]
 
     #Calendar
-    getAvailableDatesOfVisit(id: ID, time: Int): [Int]
-
-    #Day
-#    getDayById(employeeId: ID!, dayId:ID!):Day
+    getAvailableDatesOfVisit(id: ID!, time: Int!): [Number]
+    basicCalendarConfig30Days(id: ID!): Calendar
 
     #Visit
-    getVisitById(employeeId: ID!, dayId: ID!, visitId: ID!):Visit
+    getVisitById(employeeId: ID!, dayId: ID!, visitId: ID!): Visit
+    getAllVisits(employeeId: ID!, dayId: ID!): [Visit]
 }
 
 #Root Mutation
@@ -38,10 +37,6 @@ type Mutation {
 
     #Calendar
     editCalendarByEmployeeId(id: ID!, calendar:CalendarInput!): Calendar
-
-    #Day
-#    insertDay(employeeId: ID!, day:DayInput!):Day
-#    deleteDayById(employeeId: ID!, dayId:ID!):Day
 
     insertVisit(employeeId: ID!, dayId: ID!, visit:VisitInput):Visit
     deleteVisitById(employeeId: ID!, dayId: ID!, visitId: ID!):Visit
@@ -124,4 +119,7 @@ input CalendarVisitInput {
     start: Int
     end: Int
     description: String
+}
+type Number {
+    num: Int
 }

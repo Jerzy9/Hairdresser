@@ -38,7 +38,7 @@ public class GraphQLService {
         return new SchemaParserBuilder()
                 .file("graphql/main.graphqls")
                 .resolvers(
-                        new Query(hairstyleService, employeeService, dayService, visitService),
+                        new Query(hairstyleService, employeeService, calendarService, dayService, visitService),
                         new Mutation(hairstyleService, employeeService, calendarService, dayService, visitService)
                 )
                 .build()

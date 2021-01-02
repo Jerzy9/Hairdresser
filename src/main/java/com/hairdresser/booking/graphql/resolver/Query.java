@@ -5,10 +5,7 @@ import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.Employee;
 import com.hairdresser.booking.model.Hairstyle;
 import com.hairdresser.booking.model.Visit;
-import com.hairdresser.booking.service.DayService;
-import com.hairdresser.booking.service.EmployeeService;
-import com.hairdresser.booking.service.HairstyleService;
-import com.hairdresser.booking.service.VisitService;
+import com.hairdresser.booking.service.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -19,6 +16,7 @@ public class Query implements GraphQLQueryResolver {
 
     private final HairstyleService hairstyleService;
     private final EmployeeService employeeService;
+    private final CalendarService calendarService;
     private final DayService dayService;
     private final VisitService visitService;
 
@@ -42,6 +40,11 @@ public class Query implements GraphQLQueryResolver {
 
     public List<Employee> getEmployeesWithThisHairstyle(String hairstyleId) {
         return employeeService.getEmployeesWithThisHairstyle(hairstyleId);
+    }
+
+    //Calendar
+    public List<Integer> getAvailableDatesOfVisit(String employeeId, int time) {
+        return calendarService.getAvailableDatesOfVisit(employeeId, time);
     }
 
     //Day

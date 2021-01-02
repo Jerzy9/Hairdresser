@@ -74,43 +74,4 @@ public class EmployeeService {
 
         return employees.orElseThrow(EmployeeNotFoundException::new);
     }
-
-    public List<Integer> getAvailableDatesOfVisit(String employeeId, int time) {
-        Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
-        int breakTime = 15*60;
-        List<Integer> possibleVisitTimeTables = new ArrayList<>();
-
-        //For every day in work, print possible dates for new visit
-        if(employee.isPresent()) {
-            for (Day day : employee.get().getCalendar().getDaysAtWork()) {
-                int start = day.getStart();
-                int endOfTheDay = day.getEnd();
-                int sum = start + time + breakTime;
-
-                //First check, if there any are already booked visits for that day,
-                //If there are, check each break between these visits and try to fit there a new visit
-                //When the break is too short, go to the next one
-                if(!day.getVisits().isEmpty()) {
-                    int i = 0;
-                    int length = day.getVisits().size();
-                    while (i < length && sum < endOfTheDay) {
-
-                        if (sum < day.getVisits().get(i).getStart()) {
-                            possibleVisitTimeTables.add(start);
-                            start +=breakTime;
-                        } else {
-                            start = day.getVisits().get(i).getEnd() + breakTime;
-                            i++;
-                        }
-                        sum = start + time + breakTime;
-                    }
-                }
-                //Add available dates, if there was no visit at all on that day or
-                //when there was a time between last visit and end of the work
-                for (int i = start; i < endOfTheDay - time; i+=breakTime)
-                    possibleVisitTimeTables.add(i);
-            }
-        }
-        return possibleVisitTimeTables;
-    }
 }

@@ -14,6 +14,9 @@ type Query {
     getEmployeeById(id: ID!): Employee
     getEmployeesWithThisHairstyle(id: ID!): [Employee]
 
+    #Calendar
+    getAvailableDatesOfVisit(id: ID, time: Int): [Int]
+
     #Day
 #    getDayById(employeeId: ID!, dayId:ID!):Day
 

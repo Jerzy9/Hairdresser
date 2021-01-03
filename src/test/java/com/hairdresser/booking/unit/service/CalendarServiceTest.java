@@ -129,4 +129,43 @@ public class CalendarServiceTest {
         List<Number> returns = calendarService.getAvailableDatesOfVisit(employeeId, timeOfHairstyle);
         assertTrue(returns.isEmpty());
     }
+
+    @Test
+    public void moveDaysFromDaysAtWorkToHistory_input2OutOdDaysAns1CorrectDay_returnUpdatedHistoryAndDaysAtWork() {
+        String employeeId = "5ff05c6a97d1a457d9f8dadd";
+        Employee employee = new Employee("3b7b4052-2603-4043-8f82-33a05b76f61d",
+                "Adam",
+                "Hairdresser senior",
+                Lists.newArrayList("2b01e86f-f5ce-4415-9c9e-40340e201b9e", "a1fd9c09-c064-4c26-9d18-6151a369eeec"),
+                new Calendar(new ArrayList<>(), new ArrayList<>()));
+
+        int currentTime = (int) Instant.now().getEpochSecond();
+        int time5am02_01_2021 = 1609563600;
+        int rest = (currentTime - time5am02_01_2021) % (24 * 60 * 60);
+        int today5am = currentTime - rest;
+
+        int tomorrow8am = today5am + (27 * 60 * 60);
+        int yesterday8am = today5am - (21*60*60);
+        int dayBeforeYesterday11am = yesterday8am - (21*60*60);
+
+        Day dayOutOfDate1 = new Day(UUID.randomUUID().toString(), dayBeforeYesterday11am, dayBeforeYesterday11am+(8*60*60), new ArrayList<>());
+        Day dayOutOfDate2 = new Day(UUID.randomUUID().toString(), yesterday8am, yesterday8am+(8*60*60), new ArrayList<>());
+        Day currentDate = new Day(UUID.randomUUID().toString(), tomorrow8am, tomorrow8am+(8*60*60), new ArrayList<>());
+
+        employee.getCalendar().getDaysAtWork().add(dayOutOfDate1);
+        employee.getCalendar().getDaysAtWork().add(dayOutOfDate2);
+        employee.getCalendar().getDaysAtWork().add(currentDate);
+
+        Mockito.when(employeeDao.getEmployeeById(employeeId)).thenReturn(Optional.of(employee));
+
+        System.out.println(employee.getCalendar());
+
+        calendarService.moveDaysFromDaysAtWorkToHistory(employeeId);
+
+        System.out.println(employee.getCalendar());
+
+        assertEquals(1, employee.getCalendar().getDaysAtWork().size());
+        assertEquals(2, employee.getCalendar().getHistoryOfWork().size());
+    }
+
 }

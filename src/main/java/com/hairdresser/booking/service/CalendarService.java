@@ -9,7 +9,6 @@ import com.hairdresser.booking.model.Number;
 import com.hairdresser.booking.model.Visit;
 import com.hairdresser.booking.model.input.CalendarInput;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -102,14 +101,40 @@ public class CalendarService {
         return possibleVisitTimeTables;
     }
 
-    public int moveDaysFromDaysAtWorkToHistory(String employeeId) {
+    //This methods checks if there are any days in daysAtWork list, which are out of date
+    public void moveDaysFromDaysAtWorkToHistory(String employeeId) {
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
+
+        //Calculate today's morning
         int currentTime = (int) Instant.now().getEpochSecond();
+        int time5am02_01_2021 = 1609563600;
+        int rest = (currentTime - time5am02_01_2021) % (24 * 60 * 60);
+        int today5am = currentTime - rest;
 
+        //Remove days witch are older than today's morning and add the to history
+        //DaysAtWork List is always sorted by start time, so break loop if it will start of work day will be higher than today's morning
+        if (employee.isPresent()) {
 
-        return 1;
+            //Copy of DaysAtWork List
+            List<Day> daysAtWork = new ArrayList<>(employee.get().getCalendar().getDaysAtWork());
+            int size = daysAtWork.size();
+
+            for (int i = 0; i < size; i ++) {
+                Day currentDay = employee.get().getCalendar().getDaysAtWork().get(i);
+                if (currentDay.getStart() > today5am)
+                   break;
+
+                //Add day to history and remove from DaysAtWork
+                employee.get().getCalendar().getHistoryOfWork().add(currentDay);
+                daysAtWork.remove(i);
+            }
+            //Update Days at work
+            employee.get().getCalendar().setDaysAtWork(daysAtWork);
+        }
     }
 
+    //It configures employee's calendar with basic 30 days
+    //It won't overwrite days witch are already on the list
     public Calendar basicCalendarConfig30Days(String employeeId) {
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         Optional<Calendar> calendar = Optional.empty();
@@ -126,7 +151,6 @@ public class CalendarService {
             int time8am24_12_2020 = 1608796800;
             int rest = (currentTime - time8am24_12_2020) % (24 * 60 * 60);
             int today8am = currentTime - rest;
-            System.out.println("Today's 8am: " + today8am);
 
             for (int i = daysAtWork.size(); i < 30; i++) {
 
@@ -137,40 +161,7 @@ public class CalendarService {
             calendar.get().setDaysAtWork(daysAtWork);
             employee.get().setCalendar(calendar.get());
             employeeDao.editEmployeeById(employee.get());
-            System.out.println("IN");
         }
         return calendar.orElseThrow(EmployeeNotFoundException::new);
     }
 }
-
-
-//    int start = day.getStart();
-//    int end = day.getEnd();
-//    List<Visit> visits = day.getVisits();
-//
-//                if (start > 0) day.setStart(start);
-//                        if (end > 0)  {
-//                        System.out.println("TRUE");
-//                        day.setEnd(end);
-//                        }
-//                        System.out.println(end);
-//
-//                        //Visits
-//                        if (visits!= null) {
-//                        visits.forEach(visit -> {
-//                        UUID client = visit.getClient();
-//                        UUID hairstyle = visit.getHairstyle();
-//                        int visitStart = visit.getStart();
-//                        int visitEnd = visit.getEnd();
-//                        String description = visit.getDescription();
-//
-//
-//                        if (client != null) visit.setClient(client);
-//                        if (hairstyle != null) visit.setHairstyle(hairstyle);
-//                        if (visitStart > 0) visit.setStart(visitStart);
-//                        if (visitEnd > 0) visit.setEnd(visitEnd);
-//                        if (description != null) visit.setDescription(description);
-//
-//                        });
-//                        day.setVisits(visits);
-//                        }

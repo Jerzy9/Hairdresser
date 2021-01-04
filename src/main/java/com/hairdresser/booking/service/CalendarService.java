@@ -11,8 +11,10 @@ import com.hairdresser.booking.model.input.CalendarInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,13 @@ public class CalendarService {
 
     @Autowired @Qualifier("MongoDBEmployee")
     private final EmployeeDao employeeDao;
+
+    @Scheduled(cron = "0 0 6 * * ?") @PostConstruct
+    public void updateDaysAtWorkForEveryEmployee() {
+        employeeDao.getAllEmployees().forEach(emp -> {
+            moveDaysFromDaysAtWorkToHistory(emp.getId());
+        });
+    }
 
     //It clears whole calendar's daysAtWork and builds it from scratch with validated data
     public Calendar editCalendarByEmployeeId(String employeeId, CalendarInput calendarInput) {
@@ -63,6 +72,7 @@ public class CalendarService {
     }
 
     public List<Number> getAvailableDatesOfVisit(String employeeId, int time) {
+        updateDaysAtWorkForEveryEmployee();
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         int breakTime = 15*60;
         List<Number> possibleVisitTimeTables = new ArrayList<>();
@@ -126,10 +136,11 @@ public class CalendarService {
 
                 //Add day to history and remove from DaysAtWork
                 employee.get().getCalendar().getHistoryOfWork().add(currentDay);
-                daysAtWork.remove(i);
+                daysAtWork.remove(currentDay);
             }
             //Update Days at work
             employee.get().getCalendar().setDaysAtWork(daysAtWork);
+            employeeDao.editEmployeeById(employee.get());
         }
     }
 

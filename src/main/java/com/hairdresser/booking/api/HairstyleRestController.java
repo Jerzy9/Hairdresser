@@ -27,7 +27,7 @@ public class HairstyleRestController {
 
     @PostMapping(value = "/graphql")
     @ResponseBody
-    public ResponseEntity<Object> graphql (@RequestBody Map<String, Object> query) {
+    public ResponseEntity<Object> graphql(@RequestBody Map<String, Object> query) {
         //Parsing from JSON
         ExecutionResult execute = graphQLService.getGraphQL().execute(ExecutionInput.newExecutionInput()
                 .query((String) query.get("query"))

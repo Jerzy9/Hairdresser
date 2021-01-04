@@ -5,19 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document
-public class Hairstyle {
+public class Employee {
 
     @Id
     private String id;
     private String name;
     private String description;
-    private int time;
-    private float price;
+    private List<String> hairstyles;      //it stores only IDs, to avoid duplicating objects and lack of synchronization
+    private Calendar calendar;
 }

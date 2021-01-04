@@ -25,7 +25,7 @@ public class HairstyleServiceTest {
 
     @Test
     public void insertHairstyle_InputWithAllVars_returnHairstyle() {
-        UUID id = UUID.randomUUID();
+        String id = UUID.randomUUID().toString();
         String name = "Haircut";
         String description = "Simple haircut with scissors";
         int time = 30*60*1000;      //30 min in milliseconds
@@ -34,7 +34,7 @@ public class HairstyleServiceTest {
         HairstyleInput hairstyleInput = new HairstyleInput(name, description, time, price);
         Hairstyle returnHairstyle = new Hairstyle(id, name, description, time, price);
 
-        Mockito.when(hairstyleDao.insertHairstyle(hairstyleInput)).thenReturn(returnHairstyle);
+        Mockito.when(hairstyleDao.insertHairstyle(returnHairstyle)).thenReturn(returnHairstyle);
         assertEquals(returnHairstyle, hairstyleService.insertHairstyle(hairstyleInput));
     }
 

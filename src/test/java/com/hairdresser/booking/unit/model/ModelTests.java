@@ -14,7 +14,7 @@ public class ModelTests {
 
     @Test
     public void createHairstyle_fulfillWithDate_ReturnData() {
-        UUID id = UUID.randomUUID();
+        String id = UUID.randomUUID().toString();
         String name = "Haircut";
         String description = "Simple haircut with scissors";
         int time = 30*60*1000;      //30 min in milliseconds

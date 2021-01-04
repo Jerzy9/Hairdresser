@@ -16,14 +16,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class HairstyleService {
-    @Autowired @Qualifier("fake")
+    @Autowired @Qualifier("MongoDBHairstyle")
     private final HairstyleDao hairstyleDao;
 
-    public Hairstyle insertHairstyle(HairstyleInput newHairstyleInput) {
-        return hairstyleDao.insertHairstyle(newHairstyleInput);
+    public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {
+        return hairstyleDao.insertHairstyle(new Hairstyle(null, hairstyleInput.getName(), hairstyleInput.getDescription(), hairstyleInput.getTime(), hairstyleInput.getPrice()));
     }
 
-    public Hairstyle getHairstyleById(UUID id) {
+    public Hairstyle getHairstyleById(String id) {
         Optional<Hairstyle> optionalHairstyle = hairstyleDao.getHairstyleById(id);
         return optionalHairstyle.orElseThrow(HairstyleNotFoundException::new);
     }
@@ -32,13 +32,13 @@ public class HairstyleService {
         return hairstyleDao.getAllHairstyles();
     }
 
-    public Hairstyle deleteHairstyleById(UUID id) {
+    public Hairstyle deleteHairstyleById(String id) {
         Optional<Hairstyle> optionalHairstyle = hairstyleDao.deleteHairstyleById(id);
         return optionalHairstyle.orElseThrow(HairstyleNotFoundException::new);
     }
 
     //Edit only variables which are't nulls, otherwise do nothing
-    public Hairstyle editHairstyleById(UUID id, HairstyleInput hairstyleInput) {
+    public Hairstyle editHairstyleById(String id, HairstyleInput hairstyleInput) {
         //Get hairstyle which will be edited
         Optional<Hairstyle> hairstyleToEdit = hairstyleDao.getHairstyleById(id);
 
@@ -58,7 +58,6 @@ public class HairstyleService {
 
         //Replace old object with the edited one in database
         Optional<Hairstyle> hairstyleEdited = hairstyleDao.editHairstyleById(hairstyleToEdit.get());
-
         return hairstyleEdited.orElseThrow(HairstyleNotFoundException::new);
     }
 }

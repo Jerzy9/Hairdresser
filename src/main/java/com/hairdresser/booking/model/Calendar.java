@@ -7,17 +7,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Document
-public class Hairstyle {
+public class Calendar {
 
-    @Id
-    private String id;
-    private String name;
-    private String description;
-    private int time;
-    private float price;
+    private List<Day> daysAtWork = new ArrayList<>();
+    private List<Day> historyOfWork = new ArrayList<>();
+
 }

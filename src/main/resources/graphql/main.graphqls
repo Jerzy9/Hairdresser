@@ -5,17 +5,45 @@ schema {
 
 #Root Query
 type Query {
+    #Hairstyle
     getAllHairstyles: [Hairstyle]
     getHairstyleById(id: ID!): Hairstyle
+
+    #Employee
+    getAllEmployees: [Employee]
+    getEmployeeById(id: ID!): Employee
+    getEmployeesWithThisHairstyle(id: ID!): [Employee]
+
+    #Calendar
+    getAvailableDatesOfVisit(id: ID!, time: Int!): [Number]
+    basicCalendarConfig30Days(id: ID!): Calendar
+
+    #Visit
+    getVisitById(employeeId: ID!, dayId: ID!, visitId: ID!): Visit
+    getAllVisits(employeeId: ID!, dayId: ID!): [Visit]
 }
 
 #Root Mutation
 type Mutation {
-    insertHairstyle(newHairstyleInput: HairstyleInput!): Hairstyle
+    #Hairstyle
+    insertHairstyle(hairstyle: HairstyleInput!): Hairstyle
     deleteHairstyleById(id: ID!): Hairstyle
     editHairstyleById(id:ID!, hairstyle:HairstyleInput!): Hairstyle
+
+    #Employee
+    insertEmployee(employee: EmployeeInput!): Employee
+    deleteEmployeeById(id: ID!): Employee
+    editEmployeeById(id:ID!, employee:EmployeeInput!): Employee
+
+    #Calendar
+    editCalendarByEmployeeId(id: ID!, calendar:CalendarInput!): Calendar
+
+    insertVisit(employeeId: ID!, dayId: ID!, visit:VisitInput):Visit
+    deleteVisitById(employeeId: ID!, dayId: ID!, visitId: ID!):Visit
 }
 
+
+#Hairstyle
 type Hairstyle {
     id: ID
     name: String
@@ -29,4 +57,69 @@ input HairstyleInput {
     description: String
     time: Int
     price: Float
+}
+
+#Employee
+type Employee {
+    id: ID
+    name: String
+    description: String
+    hairstyles: [ID]
+    calendar: Calendar
+}
+
+input EmployeeInput {
+    name: String
+    description: String
+    hairstyles: [ID]
+}
+
+#Calendar
+type Calendar {
+    daysAtWork: [Day]
+    historyOfWork: [Day]
+}
+
+input CalendarInput {
+    daysAtWork: [DayInput]
+}
+
+#Day
+type Day {
+    id: ID
+    start: Int
+    end: Int
+    visits: [Visit]
+}
+input DayInput {
+    start: Int
+    end: Int
+    visits: [CalendarVisitInput]
+}
+
+#Visit
+type Visit {
+    id: ID
+    client: ID
+    hairstyle: ID
+    start: Int
+    end: Int
+    description: String
+}
+input VisitInput {
+    client: ID
+    hairstyle: ID
+    start: Int
+    end: Int
+    description: String
+}
+input CalendarVisitInput {
+    client: ID
+    hairstyle: ID
+    start: Int
+    end: Int
+    description: String
+}
+type Number {
+    num: Int
 }

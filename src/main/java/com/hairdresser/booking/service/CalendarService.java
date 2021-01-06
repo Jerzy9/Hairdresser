@@ -79,7 +79,8 @@ public class CalendarService {
 
         //For every day in work, print possible dates for new visit
         if(employee.isPresent()) {
-            for (Day day : employee.get().getCalendar().getDaysAtWork()) {
+            for (int i = 0; i < 7; i++) {
+                Day day = employee.get().getCalendar().getDaysAtWork().get(i);
                 int start = day.getStart();
                 int endOfTheDay = day.getEnd();
                 int sum = start + time + breakTime;
@@ -88,24 +89,24 @@ public class CalendarService {
                 //If there are, check each break between these visits and try to fit there a new visit
                 //When the break is too short, go to the next one
                 if(!day.getVisits().isEmpty()) {
-                    int i = 0;
+                    int j = 0;
                     int length = day.getVisits().size();
-                    while (i < length && sum < endOfTheDay) {
+                    while (j < length && sum < endOfTheDay) {
 
-                        if (sum < day.getVisits().get(i).getStart()) {
+                        if (sum < day.getVisits().get(j).getStart()) {
                             possibleVisitTimeTables.add(new Number(start));
                             start +=breakTime;
                         } else {
-                            start = day.getVisits().get(i).getEnd() + breakTime;
-                            i++;
+                            start = day.getVisits().get(j).getEnd() + breakTime;
+                            j++;
                         }
                         sum = start + time + breakTime;
                     }
                 }
                 //Add available dates, if there was no visit at all on that day or
                 //when there was a time between last visit and end of the work
-                for (int i = start; i < endOfTheDay - time; i+=breakTime)
-                    possibleVisitTimeTables.add(new Number(i));
+                for (int k = start; k < endOfTheDay - time; k+=breakTime)
+                    possibleVisitTimeTables.add(new Number(k));
             }
         }
         return possibleVisitTimeTables;

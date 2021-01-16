@@ -1,14 +1,16 @@
 package com.hairdresser.booking.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import com.hairdresser.booking.model.*;
 import com.hairdresser.booking.model.Number;
+import com.hairdresser.booking.model.*;
 import com.hairdresser.booking.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+//@EnableWebSecurity
 public class Query implements GraphQLQueryResolver {
 
     private final HairstyleService hairstyleService;
@@ -18,10 +20,12 @@ public class Query implements GraphQLQueryResolver {
     private final VisitService visitService;
 
     //Hairstyle
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Hairstyle getHairstyleById(String id) {
         return hairstyleService.getHairstyleById(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Hairstyle> getAllHairstyles() {
        return hairstyleService.getAllHairstyles();
     }

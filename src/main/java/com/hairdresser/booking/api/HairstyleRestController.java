@@ -4,9 +4,7 @@ import com.hairdresser.booking.graphql.GraphQLService;
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +21,11 @@ public class HairstyleRestController {
     @GetMapping("/hello")
     public String helloWorld() {
         return "Hello world";
+    }
+
+    @GetMapping()
+    public String mainPage() {
+        return "MainPage - everyone has access";
     }
 
     @PostMapping(value = "/graphql")

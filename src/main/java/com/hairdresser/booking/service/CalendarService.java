@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +37,7 @@ public class CalendarService {
     }
 
     //It clears whole calendar's daysAtWork and builds it from scratch with validated data
+    @PreAuthorize("hasAuthority('employee:write')")
     public Calendar editCalendarByEmployeeId(String employeeId, CalendarInput calendarInput) {
         Optional<Employee> employeeToEdit = employeeDao.getEmployeeById(employeeId);
         Optional<Calendar> calendar = employeeToEdit.map(Employee::getCalendar);
@@ -147,6 +149,7 @@ public class CalendarService {
 
     //It configures employee's calendar with basic 30 days
     //It won't overwrite days witch are already on the list
+    @PreAuthorize("hasAuthority('employee:write')")
     public Calendar basicCalendarConfig30Days(String employeeId) {
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         Optional<Calendar> calendar = Optional.empty();

@@ -1,6 +1,9 @@
 package com.hairdresser.booking.security;
 
 import com.hairdresser.booking.auth.ApplicationUserService;
+import com.hairdresser.booking.jwt.JwtConfig;
+import com.hairdresser.booking.jwt.JwtTokenVerifier;
+import com.hairdresser.booking.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +14,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.crypto.SecretKey;
+
 
 @Configuration
 @EnableWebSecurity
@@ -24,24 +30,23 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final ApplicationUserService applicationUserService;
+    @Autowired
+    private final SecretKey secretKey;
+    @Autowired
+    private final JwtConfig jwtConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http    .csrf().disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), secretKey, jwtConfig))
+                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "index").permitAll()
+                .antMatchers("/", "index", "/login").permitAll()
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                    .clearAuthentication(true)
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/login");
+                .authenticated();
     }
 
     @Override

@@ -74,10 +74,10 @@ public class CalendarService {
     }
 
     public List<Number> getAvailableDatesOfVisit(String employeeId, int time) {
-        updateDaysAtWorkForEveryEmployee();
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         int breakTime = 15*60;
         List<Number> possibleVisitTimeTables = new ArrayList<>();
+        int currentTime = (int) Instant.now().getEpochSecond();
 
         //For every day in work, print possible dates for new visit
         if(employee.isPresent()) {
@@ -95,7 +95,7 @@ public class CalendarService {
                     int length = day.getVisits().size();
                     while (j < length && sum < endOfTheDay) {
 
-                        if (sum < day.getVisits().get(j).getStart()) {
+                        if (sum < day.getVisits().get(j).getStart() && sum > currentTime) {
                             possibleVisitTimeTables.add(new Number(start));
                             start +=breakTime;
                         } else {
@@ -108,7 +108,8 @@ public class CalendarService {
                 //Add available dates, if there was no visit at all on that day or
                 //when there was a time between last visit and end of the work
                 for (int k = start; k < endOfTheDay - time; k+=breakTime)
-                    possibleVisitTimeTables.add(new Number(k));
+                    if(k > currentTime)
+                        possibleVisitTimeTables.add(new Number(k));
             }
         }
         return possibleVisitTimeTables;
@@ -170,7 +171,7 @@ public class CalendarService {
             for (int i = daysAtWork.size(); i < 30; i++) {
 
                 int am8 = today8am + (i * hours24);
-                Day day = new Day(null, am8, am8 + hours8, new ArrayList<>());
+                Day day = new Day(UUID.randomUUID().toString(), am8, am8 + hours8, new ArrayList<>());
                 daysAtWork.add(day);
             }
             calendar.get().setDaysAtWork(daysAtWork);

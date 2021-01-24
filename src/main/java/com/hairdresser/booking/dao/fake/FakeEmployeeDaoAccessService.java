@@ -6,14 +6,10 @@ import com.hairdresser.booking.model.Calendar;
 import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.Employee;
 import com.hairdresser.booking.model.Visit;
-import com.hairdresser.booking.model.input.EmployeeInput;
-import org.checkerframework.checker.nullness.Opt;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository("fakeEmployee")
 public class FakeEmployeeDaoAccessService implements EmployeeDao {
@@ -95,10 +91,9 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
     }
 
 
-
     ////**Visits**////
     @Override
-    public Optional<Visit> insertVisit(String employeeId, String dayId, Visit visit) {
+    public Optional<Visit> insertVisit(String employeeId, Visit visit) {
         return null;
     }
 

@@ -6,8 +6,6 @@ import com.hairdresser.booking.model.input.*;
 import com.hairdresser.booking.service.*;
 import lombok.RequiredArgsConstructor;
 
-import java.util.UUID;
-
 @RequiredArgsConstructor
 public class Mutation implements GraphQLMutationResolver {
 
@@ -58,8 +56,8 @@ public class Mutation implements GraphQLMutationResolver {
     }
 
     //Visit
-    public Visit insertVisit(String employeeId, String dayId, VisitInput visitInput) {
-        return visitService.insertVisit(employeeId, dayId, visitInput);
+    public Visit insertVisit(String employeeId, VisitInput visitInput) {
+        return visitService.insertVisit(employeeId, visitInput);
     }
 
     public Visit deleteVisitById(String employeeId, String dayId, String visitId) {

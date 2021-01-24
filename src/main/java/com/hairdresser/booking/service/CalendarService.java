@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +37,7 @@ public class CalendarService {
     }
 
     //It clears whole calendar's daysAtWork and builds it from scratch with validated data
+    @PreAuthorize("hasAuthority('employee:write')")
     public Calendar editCalendarByEmployeeId(String employeeId, CalendarInput calendarInput) {
         Optional<Employee> employeeToEdit = employeeDao.getEmployeeById(employeeId);
         Optional<Calendar> calendar = employeeToEdit.map(Employee::getCalendar);
@@ -72,14 +74,14 @@ public class CalendarService {
     }
 
     public List<Number> getAvailableDatesOfVisit(String employeeId, int time) {
-        updateDaysAtWorkForEveryEmployee();
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         int breakTime = 15*60;
         List<Number> possibleVisitTimeTables = new ArrayList<>();
+        int currentTime = (int) Instant.now().getEpochSecond();
 
         //For every day in work, print possible dates for new visit
         if(employee.isPresent()) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 7 && i < employee.get().getCalendar().getDaysAtWork().size(); i++) {
                 Day day = employee.get().getCalendar().getDaysAtWork().get(i);
                 int start = day.getStart();
                 int endOfTheDay = day.getEnd();
@@ -93,7 +95,7 @@ public class CalendarService {
                     int length = day.getVisits().size();
                     while (j < length && sum < endOfTheDay) {
 
-                        if (sum < day.getVisits().get(j).getStart()) {
+                        if (sum < day.getVisits().get(j).getStart() && sum > currentTime) {
                             possibleVisitTimeTables.add(new Number(start));
                             start +=breakTime;
                         } else {
@@ -106,7 +108,8 @@ public class CalendarService {
                 //Add available dates, if there was no visit at all on that day or
                 //when there was a time between last visit and end of the work
                 for (int k = start; k < endOfTheDay - time; k+=breakTime)
-                    possibleVisitTimeTables.add(new Number(k));
+                    if(k > currentTime)
+                        possibleVisitTimeTables.add(new Number(k));
             }
         }
         return possibleVisitTimeTables;
@@ -147,6 +150,7 @@ public class CalendarService {
 
     //It configures employee's calendar with basic 30 days
     //It won't overwrite days witch are already on the list
+    @PreAuthorize("hasAuthority('employee:write')")
     public Calendar basicCalendarConfig30Days(String employeeId) {
         Optional<Employee> employee = employeeDao.getEmployeeById(employeeId);
         Optional<Calendar> calendar = Optional.empty();
@@ -167,7 +171,7 @@ public class CalendarService {
             for (int i = daysAtWork.size(); i < 30; i++) {
 
                 int am8 = today8am + (i * hours24);
-                Day day = new Day(null, am8, am8 + hours8, new ArrayList<>());
+                Day day = new Day(UUID.randomUUID().toString(), am8, am8 + hours8, new ArrayList<>());
                 daysAtWork.add(day);
             }
             calendar.get().setDaysAtWork(daysAtWork);

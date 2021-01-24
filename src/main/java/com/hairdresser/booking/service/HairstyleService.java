@@ -7,11 +7,11 @@ import com.hairdresser.booking.model.input.HairstyleInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,25 +19,30 @@ public class HairstyleService {
     @Autowired @Qualifier("MongoDBHairstyle")
     private final HairstyleDao hairstyleDao;
 
+    @PreAuthorize("hasAuthority('hairstyle:write')")
     public Hairstyle insertHairstyle(HairstyleInput hairstyleInput) {
         return hairstyleDao.insertHairstyle(new Hairstyle(null, hairstyleInput.getName(), hairstyleInput.getDescription(), hairstyleInput.getTime(), hairstyleInput.getPrice()));
     }
 
+    @PreAuthorize("hasAuthority('hairstyle:read')")
     public Hairstyle getHairstyleById(String id) {
         Optional<Hairstyle> optionalHairstyle = hairstyleDao.getHairstyleById(id);
         return optionalHairstyle.orElseThrow(HairstyleNotFoundException::new);
     }
 
+    @PreAuthorize("hasAuthority('hairstyle:read')")
     public List<Hairstyle> getAllHairstyles() {
         return hairstyleDao.getAllHairstyles();
     }
 
+    @PreAuthorize("hasAuthority('hairstyle:write')")
     public Hairstyle deleteHairstyleById(String id) {
         Optional<Hairstyle> optionalHairstyle = hairstyleDao.deleteHairstyleById(id);
         return optionalHairstyle.orElseThrow(HairstyleNotFoundException::new);
     }
 
     //Edit only variables which are't nulls, otherwise do nothing
+    @PreAuthorize("hasAuthority('hairstyle:write')")
     public Hairstyle editHairstyleById(String id, HairstyleInput hairstyleInput) {
         //Get hairstyle which will be edited
         Optional<Hairstyle> hairstyleToEdit = hairstyleDao.getHairstyleById(id);

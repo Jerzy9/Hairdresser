@@ -3,7 +3,6 @@ package com.hairdresser.booking.dao;
 import com.hairdresser.booking.model.Day;
 import com.hairdresser.booking.model.Employee;
 import com.hairdresser.booking.model.Visit;
-import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -89,17 +88,24 @@ public class EmployeeDaoAccessService implements EmployeeDao {
     }
 
     @Override
-    public Optional<Visit> insertVisit(String employeeId, String dayId, Visit visit) {
+    public Optional<Visit> insertVisit(String employeeId, Visit visit) {
         Optional<Employee> employee = getEmployeeById(employeeId);
+        Optional<Day> day = Optional.empty();
+        Optional<Visit> newVisit = Optional.empty();
 
-        employee.ifPresent(value -> value.getCalendar().getDaysAtWork().forEach(d -> {
-            if (d.getId().equals(dayId)) {
-                d.getVisits().add(visit);
-                employeeMongoRepository.save(employee.get());
-            }
-        }));
+        if (employee.isPresent()) {
+             day = employee.get().getCalendar().getDaysAtWork().stream()
+                    .filter(d -> d.getStart() <= visit.getStart() && d.getEnd() >= visit.getEnd())
+                    .findFirst();
 
-        return getVisitById(employeeId, dayId, visit.getId());
+             if (day.isPresent()) {
+                 newVisit = Optional.of(visit);
+                 day.get().getVisits().add(visit);
+                 employeeMongoRepository.save(employee.get());
+             }
+        }
+
+        return newVisit;
     }
 
     @Override

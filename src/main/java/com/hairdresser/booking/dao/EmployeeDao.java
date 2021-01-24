@@ -23,7 +23,7 @@ public interface EmployeeDao {
     Optional<Day> deleteDayById(String employeeId, String dayId);
 
     //Visits
-    Optional<Visit> insertVisit(String employeeId, String dayId, Visit visit);
+    Optional<Visit> insertVisit(String employeeId, Visit visit);
     Optional<Visit> getVisitById(String employeeId, String dayId, String visitId);
     Optional<List<Visit>> getAllVisits(String employeeId, String dayId);
     Optional<Visit> deleteVisitById(String employeeId, String dayId, String visitId);

@@ -21,9 +21,14 @@ public class ApplicationUser implements UserDetails {
     private final boolean isAccountNonLocked;
     private final boolean isCredentialsNonExpired;
     private final boolean isEnabled;
+    public final String id;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities;
+    }
+
+    public String getId() {
+        return id;
     }
 }

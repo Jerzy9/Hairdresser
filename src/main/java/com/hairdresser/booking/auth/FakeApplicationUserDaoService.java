@@ -30,30 +30,53 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
         List<ApplicationUser> applicationUsers = Lists.newArrayList(
                 new ApplicationUser(
                         "admin",
-                        passwordEncoder.encode("admin"),
+                        passwordEncoder.encode("password"),
                         ADMIN.getGrantedAuthorities(),
                         true,
                         true,
                         true,
-                        true
+                        true,
+                        ""
                 ),
                 new ApplicationUser(
-                        "hairdresser",
-                        passwordEncoder.encode("hairdresser"),
+                        "AdamKrzak",
+                        passwordEncoder.encode("password"),
                         HAIRDRESSER.getGrantedAuthorities(),
                         true,
                         true,
                         true,
-                        true
+                        true,
+                        "600ddcf9e56f6855d2ecdf64"
+                ),
+                new ApplicationUser(
+                        "IzabelaGoluch",
+                        passwordEncoder.encode("password"),
+                        HAIRDRESSER.getGrantedAuthorities(),
+                        true,
+                        true,
+                        true,
+                        true,
+                        "600ddd89e56f6855d2ecdf65"
                 ),
                 new ApplicationUser(
                         "client",
-                        passwordEncoder.encode("client"),
+                        passwordEncoder.encode("password"),
                         CLIENT.getGrantedAuthorities(),
                         true,
                         true,
                         true,
-                        true
+                        true,
+                        ""
+                ),
+                new ApplicationUser(
+                        "hairdresser",
+                        passwordEncoder.encode("password"),
+                        CLIENT.getGrantedAuthorities(),
+                        true,
+                        true,
+                        true,
+                        true,
+                        ""
                 )
         );
 

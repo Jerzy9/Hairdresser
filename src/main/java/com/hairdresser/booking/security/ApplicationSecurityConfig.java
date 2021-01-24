@@ -1,5 +1,6 @@
 package com.hairdresser.booking.security;
 
+import com.hairdresser.booking.auth.ApplicationUserDao;
 import com.hairdresser.booking.auth.ApplicationUserService;
 import com.hairdresser.booking.jwt.JwtConfig;
 import com.hairdresser.booking.jwt.JwtTokenVerifier;
@@ -34,6 +35,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SecretKey secretKey;
     @Autowired
     private final JwtConfig jwtConfig;
+    @Autowired
+    private final ApplicationUserDao dao; //temp
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,7 +45,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), secretKey, jwtConfig))
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), secretKey, jwtConfig, dao))
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/login", "/hello").permitAll()

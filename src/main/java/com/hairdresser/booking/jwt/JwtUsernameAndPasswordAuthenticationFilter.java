@@ -1,6 +1,7 @@
 package com.hairdresser.booking.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hairdresser.booking.auth.ApplicationUserDao;
 import com.hairdresser.booking.exception.UnauthorizedAccessException;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter  extends UsernamePasswor
     private final AuthenticationManager authenticationManager;
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
+    private final ApplicationUserDao dao; //temp
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -53,6 +55,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter  extends UsernamePasswor
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
+                .claim("id", dao.selectApplicationUserByUsername(authResult.getName()).get().getId())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
                 .signWith(secretKey)

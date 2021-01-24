@@ -81,7 +81,7 @@ public class CalendarService {
 
         //For every day in work, print possible dates for new visit
         if(employee.isPresent()) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 7 && i < employee.get().getCalendar().getDaysAtWork().size(); i++) {
                 Day day = employee.get().getCalendar().getDaysAtWork().get(i);
                 int start = day.getStart();
                 int endOfTheDay = day.getEnd();

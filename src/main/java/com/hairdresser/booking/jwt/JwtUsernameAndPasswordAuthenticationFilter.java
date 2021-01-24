@@ -45,12 +45,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter  extends UsernamePasswor
         } catch (IOException e) {
             throw new UnauthorizedAccessException();
         }
-
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        String key = "secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret";
 
         String token = Jwts.builder()
                 .setSubject(authResult.getName())

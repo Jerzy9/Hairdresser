@@ -22,10 +22,10 @@ public class VisitService {
     private final EmployeeDao employeeDao;
 
     @PreAuthorize("hasAuthority('visit:add')")
-    public Visit insertVisit(String employeeId, String dayId, VisitInput visitInput) {
+    public Visit insertVisit(String employeeId, VisitInput visitInput) {
         Visit visit = new Visit(UUID.randomUUID().toString(), visitInput.getClient(), visitInput.getHairstyle(), visitInput.getStart(), visitInput.getEnd(), visitInput.getDescription());
 
-        return employeeDao.insertVisit(employeeId, dayId, visit).orElseThrow(DayNotFoundException::new);
+        return employeeDao.insertVisit(employeeId, visit).orElseThrow(DayNotFoundException::new);
     }
 
     @PreAuthorize("hasAuthority('employee:read')")

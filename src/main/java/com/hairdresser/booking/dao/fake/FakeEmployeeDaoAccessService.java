@@ -93,7 +93,7 @@ public class FakeEmployeeDaoAccessService implements EmployeeDao {
 
     ////**Visits**////
     @Override
-    public Optional<Visit> insertVisit(String employeeId, String dayId, Visit visit) {
+    public Optional<Visit> insertVisit(String employeeId, Visit visit) {
         return null;
     }
 

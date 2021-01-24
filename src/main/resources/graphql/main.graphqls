@@ -38,7 +38,8 @@ type Mutation {
     #Calendar
     editCalendarByEmployeeId(id: ID!, calendar:CalendarInput!): Calendar
 
-    insertVisit(employeeId: ID!, dayId: ID!, visit:VisitInput):Visit
+    #Visit
+    insertVisit(employeeId: ID!, visit:VisitInput):Visit
     deleteVisitById(employeeId: ID!, dayId: ID!, visitId: ID!):Visit
 }
 
